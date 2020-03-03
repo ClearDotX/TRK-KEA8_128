@@ -1,0 +1,10 @@
+--cpu Cortex-M0+
+".\clk.o"
+".\ftm.o"
+".\main.o"
+"C:\Keil\ARM\PACK\ARM\CMSIS\3.20.4\CMSIS\Lib\ARM\arm_cortexM0l_math.lib"
+".\startup_skeazn84.o"
+".\system_skeazn84.o"
+--ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\TRK-KEA8_Lab2.map" -o .\TRK-KEA8_Lab2.axf

@@ -1,0 +1,8 @@
+<map id="lin_handle_error" name="lin_handle_error">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#ga1c17226ae2c4f7dc188d8acf4381efe9" title="This function is return the index of a frame in frame list or 0xFF if not found. " alt="" coords="188,5,324,33"/>
+<area shape="rect" id="node5" href="$group__lowlevel__group.html#gaf0fafa57a6bd9b13b75ce7f5d9093451" title="Set flag for collision in event trigger frame. " alt="" coords="165,55,347,83"/>
+<area shape="rect" id="node7" href="$group__transport__group.html#gaa3db58190d60790436586b3eb77d3a2e" title="This function handles the diag service and control error in TL. " alt="" coords="191,106,321,134"/>
+<area shape="rect" id="node9" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="177,157,335,201"/>
+<area shape="rect" id="node11" href="$group___j2602__core__api__group.html#gadf0a058a6759e33065fe783cc1ec1927" title="The function is to perform the update of error signal in J2602 system. " alt="" coords="179,223,333,251"/>
+<area shape="rect" id="node13" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="177,274,335,318"/>
+</map>

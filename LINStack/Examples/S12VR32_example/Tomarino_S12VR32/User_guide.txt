@@ -1,0 +1,34 @@
+User Guide 
+1) Overview:
+This example demonstrates the LIN communication between S12VR32 Master and Slave using unconditional frames.
+2) Hardware requirements
+- 1 PE Micro Multi-link universal
+- 2 X-S12VR32V boards
+- 1 LIN cable
+- 2 Power Adapter 12V
+- 6 single Dupont female to female cables
+- 4 Led, 4 resistor 1K ohms
+- 1 Personal Computer
+3) Tool chain requirements
+- CodeWarrior IDE v5.1
+- Service Pack: CodeWarrior for HCS12(X) Microcontrollers v5.1 (Final)
+4) Hardware settings
+- For master node, plug jumper J11
+- Led and resistor connected as below
+
+	|PS2 (pin 17 of J202)|----|External resistor 1K|----(External LED1)----|GND|
+	 
+	|PS3 (pin 20 of J202)|----|External resistor 1K|----(External LED2)----|GND|
+
+
+5) Prepare the example
+	5.1) Use single Dupont female to female cable to connect pin 18 of J202 to resistor, resistor to anode of led, Cathode of led to GND on both X-S12VR32V Master and Slave boards.
+	5.2) Use single Dupont female to female cable to connect pin 21 of J202 to resistor, resistor to anode of led, Cathode of led to GND on both X-S12VR32V Master and Slave boards.
+	5.3) Use LIN cable to connect J1 of X-S12VR32V Master to J1 of X-S12VR32V Slave
+	5.4) Plug power connector of Adapters 12V to J55 of X-S12VR32V Master and Slave boards.
+	5.5) Open example projects on CodeWarrior 5.1, build projects and download the programs to boards.
+
+6)Run the example
+	6.1) After reset, LED1 of both boards always toggles for every 125ms.
+	6.2) LED2 of both boards are on for about 9s.
+	6.3) Afterwards, LED2 of both boards toggles forever.

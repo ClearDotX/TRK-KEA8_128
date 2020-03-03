@@ -1,0 +1,9 @@
+<map id="lin_lld_deinit" name="lin_lld_deinit">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#gaa6879c622a7bc24a42ea97eeabc70ee7" title="SCI deinit. " alt="" coords="156,5,271,33"/>
+<area shape="rect" id="node7" href="$group___x_g_a_t_e__group.html#ga17dd306ee677c7975ac743f731114244" title="This function performs the deinitialization of the XGATE module. " alt="" coords="148,55,279,83"/>
+<area shape="rect" id="node11" href="$group___u_a_r_t__group.html#gafc95d30dd3bb413826af11d81ac4cddc" title="UART deinit. " alt="" coords="153,106,273,134"/>
+<area shape="rect" id="node15" href="$group__s08qd4__group.html#gaeae30abd95915314a12b17f108c1f479" title="This function deinitialization module. " alt="" coords="152,157,275,185"/>
+<area shape="rect" id="node5" href="$group___s_c_i__group.html#gae3d44642cbb60c1e36bfefe5de05477d" title="This function disables SCI Interrupt. " alt="" coords="336,5,483,33"/>
+<area shape="rect" id="node9" href="$group___x_g_a_t_e__group.html#gaa95de95be383cb2dd77537f989d55884" title="This function disables SCI Interrupt with XGATE support. " alt="" coords="328,55,491,83"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#ga2bd6a95493dc3de2add14152ca9ec896" title="This function disables UART Interrupt. " alt="" coords="333,106,485,134"/>
+</map>

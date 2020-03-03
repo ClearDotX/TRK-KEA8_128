@@ -1,0 +1,5 @@
+<map id="LIN 2.1 specific API" name="LIN 2.1 specific API">
+<area shape="rect" id="node1" href="$group__transport__group.html" title="Transport layer stands between the application layer and the core API layer. " alt="" coords="7,30,137,58"/>
+<area shape="rect" id="node3" href="$group__node__configuration__group.html" title="This group contains APIs that used for node configuration purpose. " alt="" coords="371,5,499,33"/>
+<area shape="rect" id="node4" href="$group__node__identification__group.html" title="This group contains API that used for node identification purpose. " alt="" coords="371,55,499,83"/>
+</map>

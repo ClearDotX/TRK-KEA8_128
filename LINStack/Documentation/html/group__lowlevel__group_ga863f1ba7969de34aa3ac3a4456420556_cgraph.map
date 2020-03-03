@@ -1,0 +1,5 @@
+<map id="lin_lld_get_status" name="lin_lld_get_status">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga57075a48ca27c14dd2f929189f62a59b" title="Get LIN status ( return lin_status ) " alt="" coords="184,5,331,33"/>
+<area shape="rect" id="node5" href="$group___x_g_a_t_e__group.html#ga403fa913b1f2e1f03e1039ce96be9fd1" title="Return the lin status of lin driver (ref lin_status struct) " alt="" coords="177,55,337,83"/>
+<area shape="rect" id="node7" href="$group___u_a_r_t__group.html#ga8ea906523d0020261bf07371e524e1a0" title="Get LIN status ( return lin_status ) " alt="" coords="181,106,333,134"/>
+</map>

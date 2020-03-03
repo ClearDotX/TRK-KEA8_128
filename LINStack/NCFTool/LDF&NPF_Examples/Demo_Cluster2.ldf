@@ -1,0 +1,179 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 9.6 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      Gateway2,                                              /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      SlaveA,
+      SlaveB,
+      SlaveC;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   Cluster2PotentiometerA        :  8,        0x0,               SlaveA, Gateway2;
+   Cluster2LightSensorA          :  8,        0x0,               SlaveA, Gateway2;
+   Cluster2SlaveAError           :  1,        0x0,               SlaveA, Gateway2;
+   Cluster2PotentiometerB        :  8,        0x0,               SlaveB, Gateway2;
+   Cluster2SlaveBError           :  1,        0x0,               SlaveB, Gateway2;
+   Cluster2PotentiometerC        :  8,        0x0,               SlaveC, Gateway2;
+   Cluster2SlaveCError           :  1,        0x0,               SlaveC, Gateway2;
+   SlaveIdentifier               :  2,        0x0,             Gateway2, SlaveA,SlaveB,SlaveC;
+   ResetSignal                   :  2,        0x0,             Gateway2, SlaveA,SlaveB,SlaveC;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   ResetFrame          :  0x8, Gateway2            ,    1 {
+      ResetSignal         , 0;
+   }
+   LedControl          :  0x9, Gateway2            ,    1 {
+      SlaveIdentifier     , 0;
+   }
+   Cluster2SlaveAInfo  :  0xb, SlaveA              ,    3 {
+      Cluster2PotentiometerA, 0;
+      Cluster2LightSensorA, 8;
+      Cluster2SlaveAError , 16;
+   }
+   Cluster2SlaveBInfo  :  0xc, SlaveB              ,    2 {
+      Cluster2PotentiometerB, 0;
+      Cluster2SlaveBError , 8;
+   }
+   Cluster2SlaveCInfo  :  0xd, SlaveC              ,    2 {
+      Cluster2PotentiometerC, 0;
+      Cluster2SlaveCError , 8;
+   }
+}
+/* ----------SPORADIC FRAME DEFINITIONS---------- */
+Sporadic_frames {
+   LedControlFrame     : LedControl, ResetFrame;
+   ResetControlFrame   : ResetFrame, LedControl;
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   SlaveA {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x4;                      /* configured NAD of node (1-125) */
+      initial_NAD                = 0xd;                      /* initial NAD of node (1-125) */
+      product_id                 =   0x21,    0x4,    0x3;   /* Product id */
+      response_error             = Cluster2SlaveAError;      /* Response error signal */
+      P2_min                     = 100 ms;                   /* P2_min */
+      ST_min                     = 20 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         LedControl;
+         ResetFrame;
+         Cluster2SlaveAInfo;
+         LedControlFrame;
+         ResetControlFrame;
+      }
+   }
+   SlaveB {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x5;                      /* configured NAD of node (1-125) */
+      initial_NAD                = 0xe;                      /* initial NAD of node (1-125) */
+      product_id                 =   0x22,    0x5,    0x4;   /* Product id */
+      response_error             = Cluster2SlaveBError;      /* Response error signal */
+      P2_min                     = 100 ms;                   /* P2_min */
+      ST_min                     = 20 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         LedControl;
+         ResetFrame;
+         Cluster2SlaveBInfo;
+         LedControlFrame;
+         ResetControlFrame;
+      }
+   }
+   SlaveC {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x6;                      /* configured NAD of node (1-125) */
+      initial_NAD                = 0xf;                      /* initial NAD of node (1-125) */
+      product_id                 =   0x23,    0x6,    0x5;   /* Product id */
+      response_error             = Cluster2SlaveCError;      /* Response error signal */
+      P2_min                     = 100 ms;                   /* P2_min */
+      ST_min                     = 20 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         LedControl;
+         ResetFrame;
+         Cluster2SlaveCInfo;
+         LedControlFrame;
+         ResetControlFrame;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   NormalTable {
+      Cluster2SlaveAInfo                  delay 100.0 ms;
+      Cluster2SlaveBInfo                  delay 100.0 ms;
+      Cluster2SlaveCInfo                  delay 100.0 ms;
+      LedControlFrame                     delay 50.0 ms;
+      ResetControlFrame                   delay 50.0 ms;
+   }
+   ResetTable {
+      ResetControlFrame                   delay 50.0 ms;
+   }
+   PeriodicalWakeupTable {
+      Cluster2SlaveAInfo                  delay 100.0 ms;
+      Cluster2SlaveBInfo                  delay 100.0 ms;
+      Cluster2SlaveCInfo                  delay 100.0 ms;
+      LedControlFrame                     delay 50.0 ms;
+      ResetControlFrame                   delay 50.0 ms;
+      FreeFormat {0, 255, 255, 255, 255, 255, 255, 255} delay 100.0 ms;
+   }
+}
+

@@ -1,0 +1,15 @@
+<map id="lin_lld_timer_init" name="lin_lld_timer_init">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga5649b943f77a1978677babf95d5200e8" title="Initialize TPM Timer and Configures the PIT (Periodic Interrupt Timer) to generate a periodic interru..." alt="" coords="168,5,320,33"/>
+<area shape="rect" id="node5" href="$group___s_c_i__group.html#gaf747207b8583711b2c09fbd681378244" title="Initialize TIM1 timer. " alt="" coords="172,55,316,83"/>
+<area shape="rect" id="node7" href="$group___s_c_i__group.html#ga4b1c77243aa1ec6497b7eecdb8ae84b3" title="Timer interrupt service routine. " alt="" coords="172,106,316,134"/>
+<area shape="rect" id="node9" href="$group___u_a_r_t__group.html#ga867addbcc5c709bd841d960fad730764" title="Initialize TIM1 timer. " alt="" coords="179,157,309,185"/>
+<area shape="rect" id="node11" href="$group___s_c_i__group.html#gaa698d4b7be105c028df8fe30a531879d" title="Timer interrupt service routine. " alt="" coords="379,131,491,159"/>
+<area shape="rect" id="node17" href="$group___u_a_r_t__group.html#ga738c83ecf32a5d55077f5ffa54e6f4e6" title="This function is called in period Tbit in order to check timeout for IDLE and MAXFRAME. " alt="" coords="368,182,501,210"/>
+<area shape="rect" id="node13" href="$group___s_c_i__group.html#gaef525b1ebee1d5dddf543828d0d0a0a8" title="This function is called in period Tbit in order to check timeout for IDLE and MAXFRAME. " alt="" coords="549,131,677,159"/>
+<area shape="rect" id="node15" href="$group___s_c_i__group.html#gac5a108ce9a877dd815caf1522bcff034" title="Enter IDLE state. " alt="" coords="727,131,855,159"/>
+<area shape="rect" id="node19" href="$group___u_a_r_t__group.html#ga9c1da18f7719779b77aad4d73b95f0f5" title="Enter IDLE state. " alt="" coords="905,233,1033,261"/>
+<area shape="rect" id="node21" href="$group___u_a_r_t__group.html#gadd0f5ce886b1fc581c92aea677cbd5ae" title="UART Interrupt service routine that handles RX LIN Communication. " alt="" coords="552,283,675,311"/>
+<area shape="rect" id="node24" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="728,283,853,311"/>
+<area shape="rect" id="node26" href="$group__lowlevel__group.html#ga9cdf22a3cab45a36880d58fe1f3ea314" title="Calculate checksum byte. " alt="" coords="740,334,841,362"/>
+<area shape="rect" id="node28" href="$group___u_a_r_t__group.html#ga56f181e73a2dc3e6c938821122f7532b" title="UART init. " alt="" coords="737,385,844,413"/>
+</map>

@@ -1,0 +1,1 @@
+#define TrimmData ((unsigned char *) 0x1FC0C0) //IFR Trimming Data starts @0x1FC0C0

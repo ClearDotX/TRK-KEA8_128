@@ -1,0 +1,1170 @@
+/******************************************************************************
+*
+* Freescale Semiconductor Inc.
+* (c) Copyright 2008-2015 Freescale Semiconductor, Inc.
+* ALL RIGHTS RESERVED.
+*
+******************************************************************************/
+/**************************************************************************//**
+* @addtogroup XGATE_group
+* @{
+******************************************************************************/
+/**************************************************************************//**
+*
+* @file      bsp/XGATE/xlin_sci.cxgate
+*
+* @author    FPT Software
+*
+* @version   1.0
+*
+* @date      Apr-07-2009
+*
+* @brief     LIN-SCI handle functions in XGATE
+*
+******************************************************************************/
+
+#include <hidef.h>      /* common defines and macros */
+#include <intrinsics_xgate.h> /* XGATE intrinsics definition */
+#include "xgate.h"
+#include "xlin_sci.h"
+#include "lin.h"
+
+/* Disable C4800 warning message */
+#pragma MESSAGE DISABLE C4800
+/** @def XGATE_MAKE_PARITY
+* make parity
+*/
+#define XGATE_MAKE_PARITY   0
+/** @def XGATE_CHECK_PARITY
+* check parity
+*/
+#define XGATE_CHECK_PARITY  1
+
+/***** Macros *****/
+/** @def LIN_EVENT
+* lin event
+*/
+#define LIN_EVENT(event, pid, lstatus)  \
+          lint_p->event_id = event;     \
+          lint_p->current_pid = pid;    \
+          lint_p->l_status = lstatus
+
+#if LIN_MODE == _SLAVE_MODE_
+
+/***** Extern globle variable *****/
+extern volatile xlin_interrupt lin_interrupt;
+extern volatile l_u8 lin_channel;
+//extern lin_node lin_node_descrs[NUM_OF_SCI_CHANNEL];
+extern const lin_hardware_name lin_virtual_ifc;
+
+extern volatile tSCI          *pSCI;
+extern volatile l_u8          ifc;
+extern volatile l_u8          state;
+extern volatile lin_status    l_status;
+extern volatile l_u8          cnt_byte;
+extern volatile l_u8          *ptr ;
+extern volatile l_u8          current_id;
+extern  l_u8          *response_buffer;
+extern volatile l_u8          pid;
+extern volatile l_u16         tbit;
+extern volatile l_u16         frame_timeout_cnt;
+extern volatile l_u16         res_frame_timeout_cnt;
+extern volatile l_u16         idle_timeout_cnt;
+extern volatile l_u8          byte_rec;
+extern const l_u16 lin_max_frame_res_timeout_val[8];
+
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+#pragma DATA_SEG SHARED_DATA
+extern lin_diagnostic_state tl_diag_state;     /* diagnostic state */
+extern lin_service_status tl_service_status; /* service status */
+extern lin_message_status tl_receive_msg_status;             /* receive message status */
+extern lin_message_status tl_rx_msg_status;                  /* cooked rx status */
+extern lin_message_status tl_tx_msg_status;                  /* cooked tx status */
+#pragma DATA_SEG DEFAULT
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+
+/***** Globle variable data*****/
+
+#pragma CODE_SEG XGATE_CODE
+/**** interrupt handler ****/
+/* receive request from s12x */
+
+interrupt void lin_outgoing_request(xlin_request* __restrict lreq_p)
+{
+    switch(lreq_p->task_request)
+    {
+        case XLIN_REQ_GOTO_IDLE:
+            xlin_goto_idle_state();
+            break;
+        default:
+            break;
+    }
+
+    /* Clear interrupt flag (software interrupt 1) */
+    XGSWT = 0x0100;
+}
+
+/* interrupt handler for all others */
+interrupt void ErrorHandler(int dataptr)
+{
+    int chanNum= dataptr;
+    asm BRK;
+}
+
+/*XGATE FUNCTION*--------------------------------------------------------------*//**
+* @fn void xlin_sci_goto_idle_req ( )
+* @brief This function performs a request to go to IDLE state
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_199
+* @endif
+*
+* @details
+*   This function performs a request to go to IDLE state
+*
+* @see  #xlin_goto_idle_state
+*//*END*----------------------------------------------------------------------*/
+void xlin_sci_goto_idle_req ()
+{
+    /*Set LIN state to IDLE */
+    xlin_goto_idle_state();
+}
+
+void xlin_sci_timeout
+(
+    /* [IN] sci channel name */
+    l_u8  channel
+)
+{
+    /* local pointer to the xlin_interrupt */
+    xlin_interrupt* lint_p;
+
+    /* Get current xlin_interrupt */
+    lint_p = (xlin_interrupt*)&lin_interrupt;
+
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    if (LD_CHECK_N_CR_TIMEOUT == tl_check_timeout_type)
+    {
+        if(0 == --tl_check_timeout)
+        {
+            /* update status of transport layer */
+            tl_service_status = LD_SERVICE_ERROR;
+            tl_receive_msg_status = LD_N_CR_TIMEOUT;
+            tl_rx_msg_status = LD_N_CR_TIMEOUT;
+            tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+            tl_diag_state = LD_DIAG_IDLE;
+        }
+    }
+
+    if (LD_CHECK_N_AS_TIMEOUT == tl_check_timeout_type)
+    {
+        if(0 == --tl_check_timeout)
+        {
+            /* update status of transport layer */
+            tl_service_status = LD_SERVICE_ERROR;
+            tl_tx_msg_status = LD_N_AS_TIMEOUT;
+            tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+            tl_diag_state = LD_DIAG_IDLE;
+        }
+    }
+#else
+    /* Single Frame */
+    if (LD_CHECK_N_AS_TIMEOUT == tl_check_timeout_type)
+        {
+            if(0 == --tl_check_timeout)
+            {   /* update status of transport layer */
+                tl_service_status = LD_SERVICE_ERROR;
+                tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+            }
+        }
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+
+    switch(state)
+    {
+        case UNINIT:
+            break;
+        case IDLE:
+            if(idle_timeout_cnt==0)
+            {
+                /* Send interrupt to S12X */
+                lin_channel = (l_u8)channel;
+                LIN_EVENT(LIN_LLD_BUS_ACTIVITY_TIMEOUT,current_id,l_status);
+                _sif();
+
+                /* goback to IDLE, reset max idle timeout */
+                idle_timeout_cnt=_MAX_IDLE_TIMEOUT_;
+            }
+            else
+            {
+                idle_timeout_cnt--;
+            }
+            break;
+        case SEND_PID:    /* Master */
+        case RECV_SYN:
+        case RECV_PID:
+        case SEND_DATA:
+        case SEND_DATA_COMPLETED:
+            /* timeout send has occurred - change state of the node and inform core */
+            if(frame_timeout_cnt==0)
+            {
+                xlin_goto_idle_state();
+            }
+            else
+            {
+                frame_timeout_cnt--;
+            }
+            break;
+        case RECV_DATA:
+            /* timeout receive has occurred - change state of the node and inform core */
+            if(res_frame_timeout_cnt == 0)
+            {
+                if(cnt_byte)
+                {
+                    /* set lin status: error_in_response */
+                    l_status.byte |= LIN_STA_ERROR_RESP;
+                    /* Send interrupt to S12X */
+                    lin_channel = (l_u8)channel;
+                    LIN_EVENT(LIN_LLD_NODATA_TIMEOUT,current_id,l_status);
+                    _sif();
+                }
+                xlin_goto_idle_state();
+            }
+            else
+            {
+                res_frame_timeout_cnt--;
+            }
+            break;
+        case PROC_CALLBACK:
+            break;
+        default:
+            break;
+    }
+}
+
+void xlin_goto_idle_state ()
+{
+    /* Set max idle timeout */
+    idle_timeout_cnt=_MAX_IDLE_TIMEOUT_;
+    /* Set the state to IDLE */
+    state=IDLE;
+}
+
+l_u8 xlin_process_parity
+(
+    /* [IN] PID need to be send*/
+    l_u8 pid,
+    l_u8 type
+)
+{
+    l_u8 parity;
+    l_u8 ret;
+
+    parity =(((BIT(pid,0)^BIT(pid,1)^BIT(pid,2)^BIT(pid,4))<<6)|
+             ((~(BIT(pid,1)^BIT(pid,3)^BIT(pid,4)^BIT(pid,5)))<<7));
+    if (XGATE_CHECK_PARITY == type)
+    {
+        if((pid&0xC0) != parity)
+        {
+            ret = 0xFF;
+        }
+        else
+        {
+            ret = (l_u8)(pid&0x3F);
+        }
+    }
+    else
+    {
+        ret = (l_u8)(pid|parity);
+    }
+
+    return (ret);
+}
+
+l_u8 xlin_checksum
+(
+    /* [IN] pointer to buffer */
+    l_u8 *buffer,
+    /* [IN] pid */
+    l_u8 raw_pid
+)
+{
+    l_u8 length = *buffer;
+    l_u16 check_sum;
+
+    /* 1. PID correspond to Master request and Slave response, their checksum cal is classic
+    the non-diagnostic frame is calculated in Enhanced */
+    if((0x3C!=raw_pid) && (0x7D!=raw_pid))
+    {
+        check_sum = raw_pid;
+    }
+    else
+    {
+        check_sum = 0;
+    }
+
+    for (; 0<length; length--)
+    {
+        buffer++;
+        check_sum += *(buffer);
+        /* 2. to deal with the carry  */
+        if (check_sum > 0xFF)
+        {
+            check_sum -= 0xFF;
+        }
+    }
+
+    /* 3. to reverse */
+    return (l_u8)(~check_sum);
+}
+
+
+interrupt void xlin_sci_handler ()
+{
+    l_u8 sci_flag_sr1;
+    l_u8 tmp_byte;
+    l_u16 t;
+    xlin_interrupt* lint_p;    /* local pointer to the xlin_interrupt */
+
+    lint_p = (xlin_interrupt*)&lin_interrupt;
+
+    response_buffer = lin_lld_response_buffer;
+    /* Read scisr1 register */
+    sci_flag_sr1 = pSCI->scisr1.byte;
+
+    /******************************
+    *** 3. FRAME ERROR DETECTED
+    *******************************/
+    if(sci_flag_sr1&SCI0SR1_FE_MASK)
+    {
+        /* set lin status: error_in_response, framing_error */
+        l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_FRAME_ERR);
+        if((state == RECV_DATA)||(state == SEND_DATA)||(state == SEND_DATA_COMPLETED))
+        {
+            /* Send interrupt to S12X */
+            LIN_EVENT(LIN_LLD_FRAME_ERR,current_id,l_status);
+            _sif();
+        }
+
+        xlin_goto_idle_state();
+    }
+
+
+    /******************************
+    *** 1. BREAK DETECTED
+    *******************************/
+    if(pSCI->sciasr1.byte&SCIASR1_BKDIF_MASK)
+    {
+        /* clear the error flag */
+        pSCI->sciasr1.byte |=SCIASR1_BKDIF_MASK;
+        /* reset lin status */
+        if (SLEEP_MODE == state)
+        {
+            /* Set state to IDLE*/
+            xlin_goto_idle_state();
+            return;
+        }
+        /* Set max frame timeout */
+        frame_timeout_cnt = lin_max_frame_res_timeout_val[7];
+        /******************************
+        *** 1.2 SLAVE NODE: Wait for SYN
+        *******************************/
+        state=RECV_SYN;
+        return;
+    }
+    /******************************
+    *** 2. BIT ERROR DETECTED
+    *******************************/
+    else
+    {
+        if(pSCI->sciasr1.byte&SCIASR1_BERRIF_MASK)
+        {
+            /* clear bit error flag */
+            pSCI->sciasr1.byte |= SCIASR1_BERRIF_MASK;
+            /* set lin status: error_in_response, readback_error */
+            l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_READBACK_ERR);
+            if((state == SEND_DATA)||(state == SEND_DATA_COMPLETED))
+            {
+                /* Send interrupt to S12X */
+                LIN_EVENT(LIN_LLD_READBACK_ERR,current_id,l_status);
+                _sif();
+            }
+            xlin_goto_idle_state();
+            return;
+        }
+    }
+
+    /******************************
+    *** 4. BYTE RECIEVED
+    *******************************/
+    if(sci_flag_sr1&SCISR1_RDRF_MASK)
+    {
+        tmp_byte = pSCI->scidrl.byte;
+        switch(state)
+        {
+            /******************************
+            *** 4.1 MASTER: Sending PID of frame
+            *******************************/
+            case SEND_PID:
+                state=RECV_PID;
+                /* Send PID byte */
+                pSCI->scidrl.byte = (l_u8)pid;
+                break;
+            /******************************
+            *** 4.2 SLAVE: Receiving SYN byte
+            *******************************/
+            case RECV_SYN:
+                if (0x55 == tmp_byte)
+                {
+                    state=RECV_PID;
+                }
+                else
+                {
+                #if LIN_PROTOCOL == PROTOCOL_J2602
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,current_id,l_status);
+                    _sif();
+                #endif /* End of (LIN_PROTOCOL == PROTOCOL_J2602) */
+                    xlin_goto_idle_state();
+                }
+
+                break;
+            /******************************
+            *** 4.3 SLAVE: Receiving PID
+            *******************************/
+            case RECV_PID:
+                /*Save pid index */
+                pid = tmp_byte;
+                /* checkparity and extrait PID */
+                current_id=xlin_process_parity(tmp_byte,XGATE_CHECK_PARITY);
+                if(current_id !=0xFF)
+                {
+                    /*****************************************/
+                    /*** ID received correctly - parity OK ***/
+                    /*****************************************/
+                    LIN_EVENT(LIN_LLD_PID_OK,current_id,l_status);
+                    /* set semaphore */
+                    t = (l_u16)_ssem(lint_p->semaphore_id);
+                    /* Send interrupt to S12X */
+                    _sif();
+                    /* Wait for S12X to complete processing of pid */
+                    while(!_ssem(lint_p->semaphore_id)) { };
+                    /* Set Maximum response frame timeout */
+                    res_frame_timeout_cnt = lin_max_frame_res_timeout_val[*(response_buffer) - 1];
+                }
+                else
+                {
+                    /*****************************************/
+                    /*** ID Parity Error                   ***/
+                    /*****************************************/
+                    /* set lin status: parity_error */
+                    l_status.byte |= LIN_STA_PARITY_ERR;
+                    LIN_EVENT(LIN_LLD_PID_ERR,current_id,l_status);
+                    /* Send interrupt to S12X */
+                    _sif();
+                    xlin_goto_idle_state();
+                }
+                break;
+
+            /******************************
+            *** 4.4 SLAVE: Receiving data
+            *******************************/
+            case RECV_DATA:
+                byte_rec++;
+                lin_lld_response_buffer[byte_rec] = tmp_byte;
+                if(cnt_byte==(lin_lld_response_buffer[0]))
+                {
+                    /* checksum checking */
+                    if(xlin_checksum(lin_lld_response_buffer, (l_u8)pid)==tmp_byte)
+                    {
+                        /*******************************************/
+                        /***  RX Buffer Full - Checksum OK       ***/
+                        /*******************************************/
+                        /* set lin status: successful_transfer */
+                        l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                        /* disable RX interrupt */
+                        pSCI->scicr2.byte &= ~(SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                        state=PROC_CALLBACK;
+
+                        /* Send interrupt to S12X */
+                        LIN_EVENT(LIN_LLD_RX_COMPLETED,current_id,l_status);
+                        _sif();
+
+                        /* enable RX interrupt */
+                        pSCI->scicr2.byte |= (SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                        if (SLEEP_MODE != state)
+                        {
+                            xlin_goto_idle_state();
+                        }
+                    }
+                    else
+                    {
+                        /*******************************************/
+                        /***  RX Buffer Full - Checksum ERROR    ***/
+                        /*******************************************/
+                        /* set lin status: error_in_response, checksum_error */
+                        l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_CHECKSUM_ERR);
+
+                        /* Send interrupt to S12X */
+                        LIN_EVENT(LIN_LLD_CHECKSUM_ERR,current_id,l_status);
+                        _sif();
+
+                        xlin_goto_idle_state();
+                    }
+                }
+                cnt_byte++;
+                break;
+
+            /******************************
+            *** 4.5 SLAVE: Sending data
+            *******************************/
+            case SEND_DATA:
+                if (0 == (sci_flag_sr1&SCISR1_TC_MASK ))
+                {
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,current_id,l_status);
+                    _sif();
+                    state = PROC_CALLBACK;
+                    xlin_goto_idle_state();
+                    break;
+                }
+
+                if(cnt_byte==(lin_lld_response_buffer[0]))
+                {
+                    /* Send checksum byte */
+                    pSCI->scidrl.byte = lin_lld_response_buffer[cnt_byte+1];
+                    state= SEND_DATA_COMPLETED;
+                }
+                else
+                {
+                    /* Send byte next */
+                    cnt_byte++;
+                    pSCI->scidrl.byte = lin_lld_response_buffer[cnt_byte];
+                }
+                break;
+            /******************************
+            *** 4.7 SLAVE: Sending data compeleted
+            *******************************/
+            case SEND_DATA_COMPLETED:
+                /*******************************************/
+                /***  TX Buffer Empty - Checksum Sent    ***/
+                /*******************************************/
+                if (0 == (sci_flag_sr1&SCISR1_TC_MASK ))
+                {
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,current_id,l_status);
+                    _sif();
+                    state = PROC_CALLBACK;
+                    xlin_goto_idle_state();
+                    break;
+                }
+
+                /* set lin status: successful_transfer */
+                l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                /* disable RX interrupt */
+                pSCI->scicr2.byte &= ~(SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                state=PROC_CALLBACK;
+
+                /* Send interrupt to S12X */
+                LIN_EVENT(LIN_LLD_TX_COMPLETED,current_id,l_status);
+                _sif();
+
+                pSCI->scicr2.byte |= (SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                /* enable RX interrupt */
+                xlin_goto_idle_state();
+                break;
+            /******************************
+            *** 4.8 SLAVE: Low power mode
+            *******************************/
+            case SLEEP_MODE:
+                if ((tmp_byte == 0xF0) || (tmp_byte == 0xE0) || (tmp_byte == 0xC0) ||
+                    (tmp_byte == 0x80) || (tmp_byte == 0x00))
+                {
+                    /* Set idle timeout again */
+                    xlin_goto_idle_state();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+interrupt void xlin_timer_handler (void)
+{
+    PITTF = 0x01;
+
+    /*** Timeout for SCI channel ***/
+    /* Scan SCI channel */
+
+    xlin_sci_timeout((l_u8)lin_virtual_ifc);
+
+}
+#endif /* End (LIN_MODE == _SLAVE_MODE_) */
+
+#if LIN_MODE == _MASTER_MODE_
+
+/***** Extern globle variable *****/
+extern volatile xlin_interrupt lin_interrupt[NUM_OF_SCI_CHANNEL];
+extern volatile l_u8 lin_channel;
+extern lin_node lin_node_descrs[NUM_OF_SCI_CHANNEL];
+extern l_u8 byte_rec;
+extern const lin_hardware_name lin_virtual_ifc[LIN_NUM_OF_IFCS];
+extern const l_u16 lin_max_frame_res_timeout_val[LIN_NUM_OF_IFCS][8];
+
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+extern lin_tl_descriptor lin_tl_desc[LIN_NUM_OF_IFCS];
+extern lin_service_status   service_status[LIN_NUM_OF_IFCS];
+
+extern l_diagnostic_mode diag_mode[LIN_NUM_OF_IFCS];
+
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+/***** Globle variable data*****/
+
+#pragma CODE_SEG XGATE_CODE
+/**** interrupt handler ****/
+/* receive request from s12x */
+
+interrupt void lin_outgoing_request(xlin_request* __restrict lreq_p)
+{
+
+    switch(lreq_p->task_request)
+    {
+        case XLIN_REQ_GOTO_IDLE:
+            xlin_sci_goto_idle_req(lreq_p);
+            break;
+        default:
+            break;
+    }
+
+    /* Clear interrupt flag (software interrupt 1) */
+    XGSWT = 0x0100;
+}
+
+/* interrupt handler for all others */
+interrupt void ErrorHandler(int dataptr)
+{
+    int chanNum= dataptr;
+    asm BRK;
+}
+
+void xlin_sci_goto_idle_req
+(
+    /* [IN] request */
+    xlin_request* lreq_p
+)
+{
+    /*Set LIN state to IDLE */
+    xlin_goto_idle_state((l_u8)lreq_p->channel);
+}
+
+
+void xlin_sci_timeout
+(
+    /* [IN] sci channel name */
+    l_u8  channel
+)
+{
+    lin_node *lnode_p;
+    xlin_interrupt* lint_p;         /* local pointer to the xlin_interrupt */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    lin_tl_descriptor *tl_conf;
+    l_ifc_handle iii;
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* Get current xlin_interrupt */
+    lint_p = (xlin_interrupt*)&lin_interrupt[channel];
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    iii = lnode_p->ifc;
+
+    /* Get TL configuration */
+    tl_conf = lin_tl_desc+iii;
+
+    if (LD_CHECK_N_CR_TIMEOUT == tl_conf->tl_check_timeout_type)
+    {
+        if(0 == --tl_conf->tl_check_timeout)
+        {
+            /* update status of transport layer */
+            diag_mode[iii] = DIAG_NONE;
+            service_status[iii] = LD_SERVICE_ERROR;
+            tl_conf->tl_receive_msg_status = LD_N_CR_TIMEOUT;
+            tl_conf->tl_rx_msg_status = LD_N_CR_TIMEOUT;
+            tl_conf->tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+        }
+    }
+
+    if (LD_CHECK_N_AS_TIMEOUT == tl_conf->tl_check_timeout_type)
+    {
+        if(0 == --tl_conf->tl_check_timeout)
+        {
+
+            /* update status of transport layer */
+            diag_mode[iii] = DIAG_NONE;
+            service_status[iii] = LD_SERVICE_ERROR;
+            tl_conf->tl_tx_msg_status = LD_N_AS_TIMEOUT;
+            tl_conf->tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+        }
+    }
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)*/
+    switch(lnode_p->state)
+    {
+        case UNINIT:
+            break;
+        case IDLE:
+            if(lnode_p->idle_timeout_cnt==0)
+            {
+                /* Send interrupt to S12X */
+                lin_channel = (l_u8)channel;
+                LIN_EVENT(LIN_LLD_BUS_ACTIVITY_TIMEOUT,lnode_p->current_id,lnode_p->l_status);
+                _sif();
+
+                /* goback to IDLE, reset max idle timeout */
+                lnode_p->idle_timeout_cnt=_MAX_IDLE_TIMEOUT_;
+            }
+            else
+            {
+                lnode_p->idle_timeout_cnt--;
+            }
+            break;
+        case SEND_PID:        /* Master */
+        case RECV_SYN:
+        case RECV_PID:
+        case SEND_DATA:
+        case SEND_DATA_COMPLETED:
+            /* timeout send has occurred - change state of the node and inform core */
+            if(lnode_p->frame_timeout_cnt==0)
+            {
+                xlin_goto_idle_state(channel);
+            }
+            else
+            {
+                lnode_p->frame_timeout_cnt--;
+            }
+            break;
+        case RECV_DATA:
+            /* timeout receive has occurred - change state of the node and inform core */
+            if(lnode_p->res_frame_timeout_cnt == 0)
+            {
+                if(lnode_p->cnt_byte)
+                {
+
+                    /* set lin status: error_in_response */
+                    lnode_p->l_status.byte |= LIN_STA_ERROR_RESP;
+                    /* Send interrupt to S12X */
+                    lin_channel = (l_u8)channel;
+                    LIN_EVENT(LIN_LLD_NODATA_TIMEOUT,lnode_p->current_id,lnode_p->l_status);
+                    _sif();
+                }
+                xlin_goto_idle_state(channel);
+            }
+            else
+            {
+                lnode_p->res_frame_timeout_cnt--;
+            }
+            break;
+        case PROC_CALLBACK:
+            break;
+        default:
+            break;
+    }
+
+}
+
+void xlin_goto_idle_state
+(
+    /* [IN] sci channel name */
+    l_u8  channel
+)
+{
+    lin_node *lnode_p;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* set lin status: ~bus_activity */
+    /* Set max idle timeout */
+    lnode_p->idle_timeout_cnt=_MAX_IDLE_TIMEOUT_;
+    lnode_p->state=IDLE;
+
+}
+
+l_u8 xlin_process_parity
+(
+    /* [IN] PID need to be send*/
+    l_u8 pid,
+    l_u8 type
+)
+{
+    l_u8 parity;
+    l_u8 ret;
+
+    parity =(((BIT(pid,0)^BIT(pid,1)^BIT(pid,2)^BIT(pid,4))<<6)|
+             ((~(BIT(pid,1)^BIT(pid,3)^BIT(pid,4)^BIT(pid,5)))<<7));
+    if (XGATE_CHECK_PARITY == type)
+    {
+        if((pid&0xC0) != parity)
+        {
+            ret = 0xFF;
+        }
+        else
+        {
+            ret = (l_u8)(pid&0x3F);
+        }
+    }
+    else
+    {
+        ret = (l_u8)(pid|parity);
+    }
+
+    return (ret);
+}
+
+l_u8 xlin_checksum
+(
+    /* [IN] pointer to buffer */
+    l_u8 *buffer,
+    /* [IN] pid */
+    l_u8 raw_pid
+)
+{
+    l_u8 length = *buffer;
+    l_u16 check_sum;
+
+    /* 1. PID correspond to Master request and Slave response, their checksum cal is classic
+    the non-diagnostic frame is calculated in Enhanced */
+    if((0x3C!=raw_pid) && (0x7D!=raw_pid))
+    {
+        check_sum = raw_pid;
+    }
+    else
+    {
+        check_sum = 0;
+    }
+
+    for (; 0<length; length--)
+    {
+        buffer++;
+        check_sum += *(buffer);
+        /* 2. to deal with the carry  */
+        if (check_sum > 0xFF)
+        {
+            check_sum -= 0xFF;
+        }
+    }
+
+    /* 3. to reverse */
+    return (l_u8)(~check_sum);
+}
+
+
+interrupt void xlin_sci_handler
+(
+    /* [IN] sci channel name */
+    l_u8 channel
+)
+{
+    l_u8 sci_flag_sr1,tmp_ifc;
+    l_u8 tmp_byte;
+    l_u16 t;
+    xlin_interrupt* lint_p;         /* local pointer to the xlin_interrupt */
+    register lin_node *lnode_p;     /* local pointer to the lin node descriptor */
+
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* Get current xlin_interrupt */
+    lint_p = (xlin_interrupt*)&lin_interrupt[channel];
+
+    lnode_p->response_buffer = lin_lld_response_buffer[lnode_p->ifc];
+    /* Read scisr1 register */
+    sci_flag_sr1 = lnode_p->pSCI->scisr1.byte;
+
+    /******************************
+    *** 3. FRAME ERROR DETECTED
+    *******************************/
+    if(sci_flag_sr1&SCI0SR1_FE_MASK)
+    {
+        /* set lin status: error_in_response, framing_error */
+        lnode_p->l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_FRAME_ERR);
+        if((lnode_p->state == RECV_DATA)||(lnode_p->state == SEND_DATA)||
+            (lnode_p->state == SEND_DATA_COMPLETED))
+        {
+            /* Send interrupt to S12X */
+            LIN_EVENT(LIN_LLD_FRAME_ERR,lnode_p->current_id,lnode_p->l_status);
+            _sif();
+        }
+        xlin_goto_idle_state(channel);
+    }
+
+    /******************************
+    *** 1. BREAK DETECTED
+    *******************************/
+    if(lnode_p->pSCI->sciasr1.byte&SCIASR1_BKDIF_MASK)
+    {
+        /* clear the error flag */
+        lnode_p->pSCI->sciasr1.byte |=SCIASR1_BKDIF_MASK;
+        /* reset lin status */
+        if (SLEEP_MODE == lnode_p->state)
+        {
+            xlin_goto_idle_state(channel);
+            return;
+        }
+        /* Set max frame timeout */
+        lnode_p->frame_timeout_cnt = lin_max_frame_res_timeout_val[lnode_p->ifc][7];
+        /******************************
+        *** 1.1 MASTER NODE: Sending SYN field
+        *******************************/
+        if(lnode_p->func == 0/* Master */)
+        {
+            lnode_p->state=SEND_PID;
+            /* Send syn field */
+            lnode_p->pSCI->scidrl.byte = 0x55;
+        }
+        /******************************
+        *** 1.2 SLAVE NODE: Wait for SYN
+        *******************************/
+        else
+        {
+            lnode_p->state=RECV_SYN;
+        }
+        return;
+    }
+    /******************************
+    *** 2. BIT ERROR DETECTED
+    *******************************/
+    else if(lnode_p->pSCI->sciasr1.byte&SCIASR1_BERRIF_MASK)
+    {
+        /* clear bit error flag */
+        lnode_p->pSCI->sciasr1.byte |= SCIASR1_BERRIF_MASK;
+        /* set lin status: error_in_response, readback_error */
+        lnode_p->l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_READBACK_ERR);
+        if((lnode_p->state == SEND_DATA)||(lnode_p->state == SEND_DATA_COMPLETED))
+        {
+            /* Send interrupt to S12X */
+            LIN_EVENT(LIN_LLD_READBACK_ERR,lnode_p->current_id,lnode_p->l_status);
+            _sif();
+        }
+        xlin_goto_idle_state(channel);
+        return;
+    }
+
+    /******************************
+    *** 4. BYTE RECIEVED
+    *******************************/
+    if(sci_flag_sr1&SCISR1_RDRF_MASK)
+    {
+        tmp_byte = lnode_p->pSCI->scidrl.byte;
+        switch(lnode_p->state)
+        {
+            /******************************
+            *** 4.1 MASTER: Sending PID of frame
+            *******************************/
+            case SEND_PID:
+                lnode_p->state=RECV_PID;
+                /* Send PID byte */
+                lnode_p->pSCI->scidrl.byte = (l_u8)lnode_p->pid;
+                break;
+            /******************************
+            *** 4.2 SLAVE: Receiving SYN byte
+            *******************************/
+            case RECV_SYN:
+                if (0x55 == tmp_byte)
+                {
+                    lnode_p->state=RECV_PID;
+                }
+                else
+                {
+                #if LIN_PROTOCOL == PROTOCOL_J2602
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,lnode_p->current_id,lnode_p->l_status);
+                    _sif();
+                #endif /* End of (LIN_PROTOCOL == PROTOCOL_J2602) */
+                    xlin_goto_idle_state(channel);
+                }
+                break;
+            /******************************
+            *** 4.3 SLAVE: Receiving PID
+            *******************************/
+            case RECV_PID:
+                if(!lnode_p->func)   /*Master node */
+                {
+                    LIN_EVENT(LIN_LLD_PID_OK,lnode_p->current_id,lnode_p->l_status);
+                    /* set semaphore */
+                    t = (l_u16)_ssem(lint_p->semaphore_id);
+                    /* Send interrupt to S12X */
+                    _sif();
+                    /* Wait for S12X to complete processing of pid */
+                    while(!_ssem(lint_p->semaphore_id)) { };
+                    /* Set Maximum response frame timeout */
+                    lnode_p->res_frame_timeout_cnt = lin_max_frame_res_timeout_val[lnode_p->ifc][*(lnode_p->response_buffer) - 1];
+                }
+                else   /* Slave node */
+                {
+                    /*Save pid index */
+                    lnode_p->pid = tmp_byte;
+                    /* checkparity and extrait PID */
+                    lnode_p->current_id=xlin_process_parity(tmp_byte,XGATE_CHECK_PARITY);
+                    if(lnode_p->current_id !=0xFF)
+                    {
+                        /*****************************************/
+                        /*** ID received correctly - parity OK ***/
+                        /*****************************************/
+                        LIN_EVENT(LIN_LLD_PID_OK,lnode_p->current_id,lnode_p->l_status);
+                        /* set semaphore */
+                        t = (l_u16)_ssem(lint_p->semaphore_id);
+                        /* Send interrupt to S12X */
+                        _sif();
+                        /* Wait for S12X to complete processing of pid */
+                        while(!_ssem(lint_p->semaphore_id)) { };
+                        /* Set Maximum response frame timeout */
+                        lnode_p->res_frame_timeout_cnt = lin_max_frame_res_timeout_val[lnode_p->ifc][*(lnode_p->response_buffer) - 1];
+                    }
+                    else
+                    {
+                        /*****************************************/
+                        /*** ID Parity Error                   ***/
+                        /*****************************************/
+                        /* set lin status: parity_error */
+                        lnode_p->l_status.byte |= LIN_STA_PARITY_ERR;
+                        LIN_EVENT(LIN_LLD_PID_ERR,lnode_p->current_id,lnode_p->l_status);
+                        /* Send interrupt to S12X */
+                        _sif();
+                        xlin_goto_idle_state(channel);
+                    }
+                }
+                break;
+
+            /******************************
+            *** 4.4 SLAVE: Receiving data
+            *******************************/
+            case RECV_DATA:
+                tmp_ifc = lnode_p->ifc;
+                byte_rec++;
+                lin_lld_response_buffer[tmp_ifc][byte_rec] = tmp_byte;
+                if(lnode_p->cnt_byte==(lin_lld_response_buffer[tmp_ifc][0]))
+                {
+                    /* checksum checking */
+                    if(xlin_checksum(&lin_lld_response_buffer[tmp_ifc][0], (l_u8)lnode_p->pid)==tmp_byte)
+                    {
+                        /*******************************************/
+                        /***  RX Buffer Full - Checksum OK       ***/
+                        /*******************************************/
+                        /* set lin status: successful_transfer */
+                        lnode_p->l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                        /* disable RX interrupt */
+                        lnode_p->pSCI->scicr2.byte &= ~(SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                        lnode_p->state=PROC_CALLBACK;
+
+                        /* Send interrupt to S12X */
+                        LIN_EVENT(LIN_LLD_RX_COMPLETED,lnode_p->current_id,lnode_p->l_status);
+                        _sif();
+
+                        /* enable RX interrupt */
+                        lnode_p->pSCI->scicr2.byte |= (SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                        if (SLEEP_MODE != lnode_p->state)
+                        {
+                            xlin_goto_idle_state(channel);
+                        }
+                    }
+                    else
+                    {
+                        /*******************************************/
+                        /***  RX Buffer Full - Checksum ERROR    ***/
+                        /*******************************************/
+                        /* set lin status: error_in_response, checksum_error */
+                        lnode_p->l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_CHECKSUM_ERR);
+
+                        /* Send interrupt to S12X */
+                        LIN_EVENT(LIN_LLD_CHECKSUM_ERR,lnode_p->current_id,lnode_p->l_status);
+                        _sif();
+
+                        xlin_goto_idle_state(channel);
+                    }
+                }
+                lnode_p->cnt_byte++;
+                break;
+
+            /******************************
+            *** 4.5 SLAVE: Sending data
+            *******************************/
+            case SEND_DATA:
+                if (0 == (sci_flag_sr1&SCISR1_TC_MASK ))
+                {
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,lnode_p->current_id,lnode_p->l_status);
+                    _sif();
+                    lnode_p->state = PROC_CALLBACK;
+                    xlin_goto_idle_state(channel);
+                    break;
+                }
+
+                if(lnode_p->cnt_byte==(lnode_p->response_buffer[0]))
+                {
+                    /* Send checksum byte */
+                    lnode_p->pSCI->scidrl.byte = lnode_p->response_buffer[lnode_p->cnt_byte+1];
+                    lnode_p->state= SEND_DATA_COMPLETED;
+                }
+                else
+                {
+                    /* Send byte next */
+                    lnode_p->cnt_byte++;
+                    lnode_p->pSCI->scidrl.byte = lnode_p->response_buffer[lnode_p->cnt_byte];
+                }
+                break;
+            /******************************
+            *** 4.7 SLAVE: Sending data compeleted
+            *******************************/
+            case SEND_DATA_COMPLETED:
+                /*******************************************/
+                /***  TX Buffer Empty - Checksum Sent    ***/
+                /*******************************************/
+                if (0 == (sci_flag_sr1&SCISR1_TC_MASK ))
+                {
+                    LIN_EVENT(LIN_LLD_READBACK_ERR,lnode_p->current_id,lnode_p->l_status);
+                    _sif();
+                    lnode_p->state = PROC_CALLBACK;
+                    xlin_goto_idle_state(channel);
+                    break;
+                }
+                /* set lin status: successful_transfer */
+                lnode_p->l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                /* disable RX interrupt */
+                lnode_p->pSCI->scicr2.byte &= ~(SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                lnode_p->state=PROC_CALLBACK;
+
+                /* Send interrupt to S12X */
+                LIN_EVENT(LIN_LLD_TX_COMPLETED,lnode_p->current_id,lnode_p->l_status);
+                _sif();
+
+                lnode_p->pSCI->scicr2.byte |= (SCICR2_RE_MASK | SCICR2_RIE_MASK);
+                /* enable RX interrupt */
+                xlin_goto_idle_state(channel);
+                break;
+            /******************************
+            *** 4.8 SLAVE: Low power mode
+            *******************************/
+            case SLEEP_MODE:
+                if ((tmp_byte == 0xF0) || (tmp_byte == 0xE0) || (tmp_byte == 0xC0) || \
+                        (tmp_byte == 0x80) || (tmp_byte == 0x00))
+                {
+                    /* Set idle timeout again */
+                    xlin_goto_idle_state(channel);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+interrupt void xlin_timer_handler(void)
+{
+    l_u8 i;
+
+    PITTF = 0x01;
+
+    /*** Timeout for SCI channel ***/
+    /* Scan SCI channel */
+    for(i=0; i<LIN_NUM_OF_IFCS; i++)
+    {
+        xlin_sci_timeout((l_u8)lin_virtual_ifc[i]);
+    }
+}
+
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
+
+/**
+* @}
+*/

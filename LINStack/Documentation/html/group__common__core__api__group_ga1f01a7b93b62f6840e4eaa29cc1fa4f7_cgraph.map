@@ -1,0 +1,7 @@
+<map id="lin_update_tx" name="lin_update_tx">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#ga1c17226ae2c4f7dc188d8acf4381efe9" title="This function is return the index of a frame in frame list or 0xFF if not found. " alt="" coords="163,5,299,33"/>
+<area shape="rect" id="node5" href="$group__common__core__api__group.html#ga48cc231b218dc381ee2c054f3357097e" title="Update transmit flags. " alt="" coords="165,55,296,83"/>
+<area shape="rect" id="node7" href="$group__transport__group.html#gac7a5ccca9ab898e2f7ab3ae8add768f1" title="This function is process transport layer. " alt="" coords="172,106,289,134"/>
+<area shape="rect" id="node9" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="152,157,309,201"/>
+<area shape="rect" id="node11" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="152,223,309,267"/>
+</map>

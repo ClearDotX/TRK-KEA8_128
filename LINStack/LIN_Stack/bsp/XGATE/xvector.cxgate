@@ -1,0 +1,155 @@
+/******************************************************************************
+*
+* Freescale Semiconductor Inc.
+* (c) Copyright 2008-2015 Freescale Semiconductor, Inc.
+* ALL RIGHTS RESERVED.
+*
+******************************************************************************/
+/**************************************************************************//**
+* @addtogroup XGATE_group
+* @{
+******************************************************************************/
+/**************************************************************************//**
+*
+* @file      bsp/XGATE/xvector.cxgate
+*
+* @author    FPT Software
+*
+* @version   1.0
+*
+* @date      Apr-07-2009
+*
+* @brief     Xgate vector
+*
+******************************************************************************/
+
+#include <hidef.h>      /* common defines and macros */
+#include "xgate.h"
+#include "xlin_sci.h"
+
+extern xlin_request lin_request;
+#pragma CONST_SEG XGATE_VECTORS  /* assign the vector table in separate segment for dedicated placement in linker parameter file */
+/**
+* @var const XGATE_TableEntry XGATE_VectorTable
+* vector table
+*/
+const XGATE_TableEntry XGATE_VectorTable[] = {
+   /* Channel # = Vector address / 2 */
+  /* channel 0..8 are not used, first used must match macro XGATE_VECTOR_OFFSET in xgate.h */
+  {ErrorHandler, 0x09},  // Channel 09 - Reserved
+  {ErrorHandler, 0x0A},  // Channel 0A - Reserved
+  {ErrorHandler, 0x0B},  // Channel 0B - Reserved
+  {ErrorHandler, 0x0C},  // Channel 0C - Reserved
+  {ErrorHandler, 0x0D},  // Channel 0D - Reserved
+  {ErrorHandler, 0x0E},  // Channel 0E - Reserved
+  {ErrorHandler, 0x0F},  // Channel 0F - Reserved
+  {ErrorHandler, 0x10},  // Channel 10 - Reserved
+  {ErrorHandler, 0x11},  // Channel 11 - Reserved
+  {ErrorHandler, 0x12},  // Channel 12 - Reserved
+  {ErrorHandler, 0x13},  // Channel 13 - Reserved
+  {ErrorHandler, 0x14},  // Channel 14 - Reserved
+  {ErrorHandler, 0x15},  // Channel 15 - Reserved
+  {ErrorHandler, 0x16},  // Channel 16 - Reserved
+  {ErrorHandler, 0x17},  // Channel 17 - Reserved
+  {ErrorHandler, 0x18},  // Channel 18 - Reserved
+  {ErrorHandler, 0x19},  // Channel 19 - Reserved
+  {ErrorHandler, 0x1A},  // Channel 1A - Reserved
+  {ErrorHandler, 0x1B},  // Channel 1B - Reserved
+  {ErrorHandler, 0x1C},  // Channel 1C - Reserved
+  {ErrorHandler, 0x1D},  // Channel 1D - Reserved
+  {ErrorHandler, 0x1E},  // Channel 1E - Reserved
+  {ErrorHandler, 0x1F},  // Channel 1F - Reserved
+  {ErrorHandler, 0x20},  // Channel 20 - Reserved
+  {ErrorHandler, 0x21},  // Channel 21 - Reserved
+  {ErrorHandler, 0x22},  // Channel 22 - Reserved
+  {ErrorHandler, 0x23},  // Channel 23 - Reserved
+  {ErrorHandler, 0x24},  // Channel 24 - Reserved
+  {ErrorHandler, 0x25},  // Channel 25 - Reserved
+  {ErrorHandler, 0x26},  // Channel 26 - Reserved
+  {ErrorHandler, 0x27},  // Channel 27 - Reserved
+  {ErrorHandler, 0x28},  // Channel 28 - Reserved
+  {ErrorHandler, 0x29},  // Channel 29 - Reserved
+  {ErrorHandler, 0x2A},  // Channel 2A - Reserved
+  {ErrorHandler, 0x2B},  // Channel 2B - Reserved
+  {ErrorHandler, 0x2C},  // Channel 2C - Reserved
+  {ErrorHandler, 0x2D},  // Channel 2D - Reserved
+  {ErrorHandler, 0x2E},  // Channel 2E - Reserved
+  {ErrorHandler, 0x2F},  // Channel 2F - Reserved
+  {ErrorHandler, 0x30},  // Channel 30 - XSRAM20K Access Violation
+  {ErrorHandler, 0x31},  // Channel 31 - XGATE Software Error Interrupt
+  {ErrorHandler, 0x32},  // Channel 32 - XGATE Software Trigger 7
+  {ErrorHandler, 0x33},  // Channel 33 - XGATE Software Trigger 6
+  {ErrorHandler, 0x34},  // Channel 34 - XGATE Software Trigger 5
+  {ErrorHandler, 0x35},  // Channel 35 - XGATE Software Trigger 4
+  {ErrorHandler, 0x36},  // Channel 36 - XGATE Software Trigger 3
+  {ErrorHandler, 0x37},  // Channel 37 - XGATE Software Trigger 2
+  {ErrorHandler, 0x38},  // Channel 38 - XGATE Software Trigger 1
+  {(XGATE_Function)lin_outgoing_request, (int)&lin_request},  // Channel 39 - XGATE Software Trigger 0
+  {ErrorHandler, 0x3A},  // Channel 3A - Periodic Interrupt Timer 3
+  {ErrorHandler, 0x3B},  // Channel 3B - Periodic Interrupt Timer 2
+  {ErrorHandler, 0x3C},  // Channel 3C - Periodic Interrupt Timer 1
+  {(XGATE_Function)xlin_timer_handler, 0x3D},  // Channel 3D - Periodic Interrupt Timer 0
+  {ErrorHandler, 0x3E},  // Channel 3E - Reserved
+  {ErrorHandler, 0x3F},  // Channel 3F - Autonomous Periodical interrupt API
+  {ErrorHandler, 0x40},  // Channel 40 - Low Voltage interrupt LVI
+  {ErrorHandler, 0x41},  // Channel 41 - IIC1 Bus
+  {(XGATE_Function)xlin_sci_handler, 0x05},  // Channel 42 - SCI5
+  {(XGATE_Function)xlin_sci_handler, 0x04},  // Channel 43 - SCI4
+  {(XGATE_Function)xlin_sci_handler, 0x03},  // Channel 44 - SCI3
+  {(XGATE_Function)xlin_sci_handler, 0x02}, // Channel 45 - SCI2
+  {ErrorHandler, 0x46},  // Channel 46 - PWM Emergency Shutdown
+  {ErrorHandler, 0x47},  // Channel 47 - Port P Interrupt
+  {ErrorHandler, 0x48},  // Channel 48 - CAN4 transmit
+  {ErrorHandler, 0x49},  // Channel 49 - CAN4 receive
+  {ErrorHandler, 0x4A},  // Channel 4A - CAN4 errors
+  {ErrorHandler, 0x4B},  // Channel 4B - CAN4 wake-up
+  {ErrorHandler, 0x4C},  // Channel 4C - CAN3 transmit
+  {ErrorHandler, 0x4D},  // Channel 4D - CAN3 receive
+  {ErrorHandler, 0x4E},  // Channel 4E - CAN3 errors
+  {ErrorHandler, 0x4F},  // Channel 4F - CAN3 wake-up
+  {ErrorHandler, 0x50},  // Channel 50 - CAN2 transmit
+  {ErrorHandler, 0x51},  // Channel 51 - CAN2 receive
+  {ErrorHandler, 0x52},  // Channel 52 - CAN2 errors
+  {ErrorHandler, 0x53},  // Channel 53 - CAN2 wake-up
+  {ErrorHandler, 0x54},  // Channel 54 - CAN1 transmit
+  {ErrorHandler, 0x55},  // Channel 55 - CAN1 receive
+  {ErrorHandler, 0x56},  // Channel 56 - CAN1 errors
+  {ErrorHandler, 0x57},  // Channel 57 - CAN1 wake-up
+  {ErrorHandler, 0x58},  // Channel 58 - CAN0 transmit
+  {ErrorHandler, 0x59},  // Channel 59 - CAN0 receive
+  {ErrorHandler, 0x5A},  // Channel 5A - CAN0 errors
+  {ErrorHandler, 0x5B},  // Channel 5B - CAN0 wake-up
+  {ErrorHandler, 0x5C},  // Channel 5C - FLASH
+  {ErrorHandler, 0x5D},  // Channel 5D - EEPROM
+  {ErrorHandler, 0x5E},  // Channel 5E - SPI2
+  {ErrorHandler, 0x5F},  // Channel 5F - SPI1
+  {ErrorHandler, 0x60},  // Channel 60 - IIC0 Bus
+  {ErrorHandler, 0x61},  // Channel 61 - Reserved
+  {ErrorHandler, 0x62},  // Channel 62 - CRG Self Clock Mode
+  {ErrorHandler, 0x63},  // Channel 63 - CRG PLL lock
+  {ErrorHandler, 0x64},  // Channel 64 - Pulse Accumulator B Overflow
+  {ErrorHandler, 0x65},  // Channel 65 - Modulus Down Counter underflow
+  {ErrorHandler, 0x66},  // Channel 66 - Port H
+  {ErrorHandler, 0x67},  // Channel 67 - Port J
+  {ErrorHandler, 0x68},  // Channel 68 - ATD1
+  {ErrorHandler, 0x69},  // Channel 69 - ATD0
+  {(XGATE_Function)xlin_sci_handler, 0x01}, // Channel 6A - SCI1
+  {(XGATE_Function)xlin_sci_handler, 0x00}, // Channel 6B - SCI0
+  {ErrorHandler, 0x6C},  // Channel 6C - SPI0
+  {ErrorHandler, 0x6D},  // Channel 6D - Pulse accumulator input edge
+  {ErrorHandler, 0x6E},  // Channel 6E - Pulse accumulator A overflow
+  {ErrorHandler, 0x6F},  // Channel 6F - Enhanced Capture Timer overflow
+  {ErrorHandler, 0x70},  // Channel 70 - Enhanced Capture Timer channel 7
+  {ErrorHandler, 0x71},  // Channel 71 - Enhanced Capture Timer channel 6
+  {ErrorHandler, 0x72},  // Channel 72 - Enhanced Capture Timer channel 5
+  {ErrorHandler, 0x73},  // Channel 73 - Enhanced Capture Timer channel 4
+  {ErrorHandler, 0x74},  // Channel 74 - Enhanced Capture Timer channel 3
+  {ErrorHandler, 0x75},  // Channel 75 - Enhanced Capture Timer channel 2
+  {ErrorHandler, 0x76},  // Channel 76 - Enhanced Capture Timer channel 1
+  {ErrorHandler, 0x77},  // Channel 77 - Enhanced Capture Timer channel 0
+  {ErrorHandler, 0x78},  // Channel 78 - Real Time Interrupt
+  {ErrorHandler, 0x79},  // Channel 79 - IRQ
+};
+/**
+* @}
+*/

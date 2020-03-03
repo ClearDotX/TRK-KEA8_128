@@ -1,0 +1,132 @@
+/* This is a linker parameter file for the MC9S12I128 */
+NAMES END /* CodeWarrior will pass all the needed files to the linker by command line. But here you may add your own files too. */
+
+SEGMENTS  /* Here all RAM/ROM areas of the device are listed. Used in PLACEMENT below. */
+
+/* Register space  */
+/*    IO_SEG        = PAGED         0x0000 TO   0x03FF; intentionally not defined */
+
+/* RAM */
+      RAM           = READ_WRITE    0x2800 TO   0x3EFF;
+      MYRAM         = READ_WRITE    0x3F00 TO   0x3FFF;
+/* D-Flash */
+      DFLASH        = READ_ONLY   0x010400 TO 0x0113FF;
+
+/* non-paged FLASHs */
+      ROM_1400      = READ_ONLY     0x1400 TO   0x27FF;
+      ROM_4000      = READ_ONLY     0x4000 TO   0x7FFF;
+      ROM_C000      = READ_ONLY     0xC000 TO   0xFEFF;
+ /*   VECTORS       = READ_ONLY     0xFF00 TO   0xFFFF; intentionally not defined: used for VECTOR commands below */
+   //OSVECTORS      = READ_ONLY     0xFF80 TO   0xFFFF;   /* OSEK interrupt vectors (use your vector.o) */
+
+/* paged FLASH:                     0x8000 TO   0xBFFF; addressed through PPAGE */
+      NVM_PAGE_01   = NO_INIT     0x0180C0 TO 0x0183FF; //triming values
+      PAGE_08       = READ_ONLY   0x088000 TO 0x08BFFF;
+      PAGE_09       = READ_ONLY   0x098000 TO 0x09BFFF;
+      PAGE_0A       = READ_ONLY   0x0A8000 TO 0x0ABFFF;
+      PAGE_0B       = READ_ONLY   0x0B8000 TO 0x0BBFFF;
+      PAGE_0C       = READ_ONLY   0x0C8000 TO 0x0C93FF;
+      PAGE_0C_A800  = READ_ONLY   0x0CA800 TO 0x0CBFFF;
+      PAGE_0E       = READ_ONLY   0x0E8000 TO 0x0EBFFF;
+/*    PAGE_0D       = READ_ONLY   0x0D8000 TO 0x0DBFFF; not used: equivalent to ROM_4000 */
+/*    PAGE_0F       = READ_ONLY   0x0F8000 TO 0x0FBEFF; not used: equivalent to ROM_C000 */
+END
+
+PLACEMENT /* here all predefined and user segments are placed into the SEGMENTS defined above. */
+      _PRESTART,              /* Used in HIWARE format: jump to _Startup at the code start */
+      STARTUP,                /* startup data structures */
+      ROM_VAR,                /* constant variables */
+      STRINGS,                /* string literals */
+      VIRTUAL_TABLE_SEGMENT,  /* C++ virtual table segment */
+    //.ostext,                /* OSEK */
+      NON_BANKED,             /* runtime routines which must not be banked */
+      COPY                    /* copy down information: how to initialize variables */
+                              /* in case you want to use ROM_4000 here as well, make sure
+                                 that all files (incl. library files) are compiled with the
+                                 option: -OnB=b */
+                        INTO  ROM_C000/*, ROM_1400, ROM_4000*/;
+
+      DEFAULT_ROM       INTO  PAGE_08, PAGE_09, PAGE_0A, PAGE_0B, PAGE_0C, PAGE_0C_A800, PAGE_0E                  ;
+
+    //.stackstart,            /* eventually used for OSEK kernel awareness: Main-Stack Start */
+      SSTACK,                 /* allocate stack first to avoid overwriting variables on overflow */
+    //.stackend,              /* eventually used for OSEK kernel awareness: Main-Stack End */
+    DEFAULT_RAM         INTO  RAM;
+    CW_RAM              INTO  MYRAM;
+    TRIMMING_DATA       INTO  NVM_PAGE_01;
+
+  //.vectors            INTO  OSVECTORS; /* OSEK */
+END
+
+ENTRIES /* keep the following unreferenced variables */
+    /* OSEK: always allocate the vector table and all dependent objects */
+  //_vectab OsBuildNumber _OsOrtiStackStart _OsOrtiStart
+END
+
+STACKSIZE 0x100
+
+VECTOR  0 _Startup     /* 0xFFFE System reset or illegal access reset */
+VECTOR  1 _dummyISR      /* 0xFFFC Oscillator monitor reset */
+VECTOR  2 _dummyISR       /* 0xFFFA COP watchdog reset */
+VECTOR  3 _dummyISR         /* 0xFFF8 Unimplemented instruction trap  */
+VECTOR  4 _dummyISR         /* 0xFFF6 SWI */
+VECTOR  5 _dummyISR      /* 0xFFF4 D2DI Error Interrupt */
+VECTOR  6 _D2D         /* 0xFFF2 D2DI External Error Interrupt  */
+VECTOR  7 _dummyISR         /* 0xFFF0 Real time interrupt */
+VECTOR  8 _dummyISR	   /* 0xFFEE Reserved */
+VECTOR  9 _dummyISR          /* 0xFFEC Reserved */
+VECTOR 10 _dummyISR    /* 0xFFEA Reserved */
+VECTOR 11 _dummyISR    /* 0xFFE8 Reserved */
+VECTOR 12 _dummyISR    /* 0xFFE6 Reserved */
+VECTOR 13 _dummyISR    /* 0xF FE4 Reserved */
+VECTOR 14 _dummyISR    /* 0xFFE2 Reserved */
+VECTOR 15 _dummyISR    /* 0xFFE0 Reserved */
+VECTOR 16 _dummyISR          /* 0xFFDE Reserved */
+VECTOR 17 _dummyISR    /* 0xFFDC Reserved */
+VECTOR 18 _dummyISR    /* 0xFFDA Reserved */
+VECTOR 19 _dummyISR         /* 0xFFD8 SPI */
+VECTOR 20 _dummyISR    /* 0xFFD6 Reserved */
+VECTOR 21 _dummyISR    /* 0xFFD4 Reserved */
+VECTOR 22 _dummyISR    /* 0xFFD2 Reserved */
+VECTOR 23 _dummyISR    /* 0xFFD0 Reserved */
+VECTOR 24 _dummyISR    /* 0xFFCE Reserved */
+VECTOR 25 _dummyISR    /* 0xFFCC Reserved */
+VECTOR 26 _dummyISR    /* 0xFFCA Reserved */
+VECTOR 27 _dummyISR         /* 0xFFC8 Oscillator status interrupt */
+VECTOR 28 _dummyISR      /* 0xFFC6 CRG FLL lock */
+VECTOR 29 _dummyISR    /* 0xFFC4 Reserved */
+VECTOR 30 _dummyISR    /* 0xFFC2 Reserved */
+VECTOR 31 _dummyISR    /* 0xFFC0 Reserved */
+VECTOR 32 _dummyISR    /* 0xFFBE Reserved */
+VECTOR 33 _dummyISR    /* 0xFFBC Reserved */
+VECTOR 34 _dummyISR    /* 0xFFBA FLASH Error */
+VECTOR 35 _dummyISR    /* 0xFFB8 FLASH CMD*/
+VECTOR 36 _dummyISR    /* 0xFFB6 Reserved */
+VECTOR 37 _dummyISR    /* 0xFFB4 Reserved */
+VECTOR 38 _dummyISR    /* 0xFFB2 Reserved */
+VECTOR 39 _dummyISR    /* 0xFFB0 Reserved */
+VECTOR 40 _dummyISR    /* 0xFFAE Reserved */
+VECTOR 41 _dummyISR    /* 0xFFAC Reserved */
+VECTOR 42 _dummyISR    /* 0xFFAA Reserved */
+VECTOR 43 _dummyISR    /* 0xFFA8 Reserved */
+VECTOR 44 _dummyISR    /* 0xFFA6 Reserved */
+VECTOR 45 _dummyISR    /* 0xFFA4 Reserved */
+VECTOR 46 _dummyISR    /* 0xFFA2 Reserved */
+VECTOR 47 _dummyISR    /* 0xFFA0 Reserved */
+VECTOR 48 _dummyISR    /* 0xFF9E Reserved */
+VECTOR 49 _dummyISR    /* 0xFF9C Reserved */
+VECTOR 50 _dummyISR    /* 0xFF9A Reserved */
+VECTOR 51 _dummyISR    /* 0xFF98 Reserved */
+VECTOR 52 _dummyISR    /* 0xFF96 Reserved */
+VECTOR 53 _dummyISR    /* 0xFF94 Reserved */
+VECTOR 54 _dummyISR    /* 0xFF92 Reserved */
+VECTOR 55 _dummyISR    /* 0xFF90 Reserved */
+VECTOR 56 _dummyISR    /* 0xFF8E Reserved */
+VECTOR 57 _dummyISR    /* 0xFF8C Reserved */
+VECTOR 58 _dummyISR         /* 0xFF8A Low-voltage interrupt (LVI) */
+VECTOR 59 _dummyISR    /* 0xFF88 Reserved */
+VECTOR 60 _dummyISR    /* 0xFF86 Reserved */
+VECTOR 61 _dummyISR    /* 0xFF84 Reserved */
+VECTOR 62 _dummyISR    /* 0xFF82 Reserved */
+VECTOR 63 _dummyISR       /* 0xFF80 Spurious Interrupt */
+

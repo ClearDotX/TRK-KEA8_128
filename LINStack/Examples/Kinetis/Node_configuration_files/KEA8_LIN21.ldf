@@ -1,0 +1,169 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 9.6 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      VectorMasterNode,                                      /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.5 ms;                                                /* Jitter */
+   Slaves:
+      VectorSlave2_1,
+      VectorSlave2_0;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   MotorLinError                 :  1,        0x0,       VectorSlave2_1, VectorMasterNode;
+   MotorLinError_2               :  1,        0x0,       VectorSlave2_0, VectorMasterNode;
+   MotorTemp                     :  8,        0x0,       VectorSlave2_1, VectorMasterNode;
+   MotorTemp_2                   :  8,        0x0,       VectorSlave2_0, VectorMasterNode;
+   sig_MotorQuery1_2             :  8,        0x5,     VectorMasterNode, VectorSlave2_0;
+   sigMotorState1                :  8,        0x0,       VectorSlave2_1, VectorMasterNode;
+   sigMotorState1_2              :  8,        0x0,       VectorSlave2_0, VectorMasterNode;
+   signal1                       : 16,       0x10,     VectorMasterNode, VectorSlave2_1;
+   signal1_2                     : 16,       0x10,     VectorMasterNode, VectorSlave2_0;
+   sig_MotorQuery1               : 40, {0x5,0x4,0x3,0x2,0x1},     VectorMasterNode, VectorSlave2_1;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   MotorControl        :  0x4, VectorMasterNode    ,    8 {
+      signal1             , 16;
+   }
+   MotorControl_2      :  0x6, VectorMasterNode    ,    8 {
+      signal1_2           , 16;
+   }
+   MotorQuery          :  0x5, VectorMasterNode    ,    5 {
+      sig_MotorQuery1     , 0;
+   }
+   MotorQuery_2        :  0x7, VectorMasterNode    ,    5 {
+      sig_MotorQuery1_2   , 0;
+   }
+   MotorState_Cycl     :  0x0, VectorSlave2_1      ,    8 {
+      MotorTemp           , 8;
+      MotorLinError       , 40;
+   }
+   MotorState_Cycl_2   :  0x1, VectorSlave2_0      ,    8 {
+      MotorTemp_2         , 8;
+      MotorLinError_2     , 40;
+   }
+   MotorState_Event    :  0x2, VectorSlave2_1      ,    3 {
+      sigMotorState1      , 8;
+   }
+   MotorState_Event_2  :  0x3, VectorSlave2_0      ,    3 {
+      sigMotorState1_2    , 8;
+   }
+}
+/* ----------EVENT TRIGGERD FRAME DEFINITIONS---------- */
+Event_triggered_frames {
+   ETF_MotorState_Cycl :   CollisionResolver1, 0x37, MotorState_Cycl, MotorState_Cycl_2;
+   ETF_MotorState_Event:   CollisionResolver2, 0x38, MotorState_Event, MotorState_Event_2;
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   VectorSlave2_1 {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x5;                      /* configured NAD of node (1-125) */
+      initial_NAD                = 0x5;                      /* initial NAD of node (1-125) */
+      product_id                 =   0x1e,    0x2,    0x1;   /* Product id */
+      response_error             = MotorLinError;            /* Response error signal */
+      configurable_frames {
+         MotorControl;
+         MotorQuery;
+         MotorState_Cycl;
+         MotorState_Event;
+         ETF_MotorState_Event;
+         ETF_MotorState_Cycl;
+      }
+   }
+   VectorSlave2_0 {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x1;                      /* configured NAD of node (1-125) */
+      product_id                 =   0x1e,    0x1,    0x0;   /* Product id */
+      response_error             = MotorLinError_2;          /* Response error signal */
+      configurable_frames {
+         MotorControl_2;
+         MotorQuery_2;
+         MotorState_Cycl_2;
+         MotorState_Event_2;
+         ETF_MotorState_Event;
+         ETF_MotorState_Cycl;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   InitTable {
+      MotorQuery                          delay 25.0 ms;
+      MotorQuery_2                        delay 25.0 ms;
+      MotorControl_2                      delay 30.0 ms;
+      MotorControl                        delay 30.0 ms;
+      MotorState_Cycl                     delay 30.0 ms;
+      MotorState_Cycl_2                   delay 30.0 ms;
+      MotorState_Event                    delay 25.0 ms;
+      MotorState_Event_2                  delay 25.0 ms;
+   }
+   ETF_Table {
+      ETF_MotorState_Cycl                 delay 30.0 ms;
+      ETF_MotorState_Event                delay 25.0 ms;
+   }
+   CollisionResolver1 {
+      MotorState_Cycl                     delay 30.0 ms;
+      MotorState_Cycl_2                   delay 30.0 ms;
+   }
+   CollisionResolver2 {
+      MotorState_Event                    delay 25.0 ms;
+      MotorState_Event_2                  delay 25.0 ms;
+   }
+   Table4 {
+      AssignNAD {VectorSlave2_1}          delay 30.0 ms;
+      SlaveResp                           delay 30.0 ms;
+   }
+}
+

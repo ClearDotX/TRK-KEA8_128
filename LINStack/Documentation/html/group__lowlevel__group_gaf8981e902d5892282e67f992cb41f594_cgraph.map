@@ -1,0 +1,6 @@
+<map id="l_sys_irq_disable" name="l_sys_irq_disable">
+<area shape="rect" id="node3" href="$group__lowlevel__group.html#gaf67483b5c380ef4f89aed9d86695c71e" title="Disable the interrupt related the interface. " alt="" coords="177,55,300,83"/>
+<area shape="rect" id="node5" href="$group___s_c_i__group.html#gae3d44642cbb60c1e36bfefe5de05477d" title="This function disables SCI Interrupt. " alt="" coords="357,5,504,33"/>
+<area shape="rect" id="node7" href="$group___x_g_a_t_e__group.html#gaa95de95be383cb2dd77537f989d55884" title="This function disables SCI Interrupt with XGATE support. " alt="" coords="349,55,512,83"/>
+<area shape="rect" id="node9" href="$group___u_a_r_t__group.html#ga2bd6a95493dc3de2add14152ca9ec896" title="This function disables UART Interrupt. " alt="" coords="355,106,507,134"/>
+</map>

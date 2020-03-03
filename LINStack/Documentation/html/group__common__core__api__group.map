@@ -1,0 +1,9 @@
+<map id="Common Core API" name="Common Core API">
+<area shape="rect" id="node1" href="$group__coreapi__group.html" title="Refer to chappter 7, LIN 2.1 specification. " alt="" coords="5,143,101,171"/>
+<area shape="rect" id="node2" href="$group__notification__group.html" title="This group contains APIs that let you know when a signal&#39;s value changed. " alt="" coords="363,5,448,33"/>
+<area shape="rect" id="node3" href="$group__schedule__management__group.html" title="This group contains APIs that help you manage schedules table in master node only. " alt="" coords="328,55,483,83"/>
+<area shape="rect" id="node4" href="$group__driver__cluster__group.html" title="initialization for LIN node. " alt="" coords="345,106,465,150"/>
+<area shape="rect" id="node5" href="$group__call__out__group.html" title="This group contains APIs which may be called from within the LIN module in order to enable/disable LI..." alt="" coords="329,173,481,201"/>
+<area shape="rect" id="node6" href="$group__interface__management__group.html" title="This group contains APIs that help you manage interface(s) in LIN node. " alt="" coords="331,223,480,251"/>
+<area shape="rect" id="node8" href="$group__signal__interract__group.html" title="This group contains APIs that help you communicate with signals of LIN node. " alt="" coords="345,274,465,302"/>
+</map>

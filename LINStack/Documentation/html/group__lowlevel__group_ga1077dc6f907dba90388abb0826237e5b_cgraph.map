@@ -1,0 +1,6 @@
+<map id="lin_lld_rx_response" name="lin_lld_rx_response">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga7905f83d92438a995ec6186da7e1cad5" title="This function requests to receive response data of LIN frame via SCI channel. " alt="" coords="196,5,351,33"/>
+<area shape="rect" id="node5" href="$group___x_g_a_t_e__group.html#ga523f9f386acfa7d2693d09263b26aea9" title="This function requests to receive response data of LIN frame via SCI channel. " alt="" coords="188,55,359,83"/>
+<area shape="rect" id="node7" href="$group__s08qd4__group.html#ga370b382049a8b77415653b2702ddc4c1" title="This function sets SLIC module to low power mode. " alt="" coords="192,106,355,134"/>
+<area shape="rect" id="node9" href="$group___u_a_r_t__group.html#ga362e52c26f3ccfd1f9c5176a5f3b2dda" title="This function requests to receive response data of LIN frame via UART channel. " alt="" coords="193,157,353,185"/>
+</map>

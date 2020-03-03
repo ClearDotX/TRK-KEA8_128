@@ -1,0 +1,16 @@
+Release Name: LIN stack 2.x         Version: 4.5.8
+
+LIN Stack                 Description: Freescale LIN2.x and 
+                          SAE J2602 Stack package for S08 / S12/ KEA platforms
+                          Version: 4.5.8
+                          Author: NXP
+                          License: LA_OPT_BASE. See /LA_OPT_Base_License.html
+                          Format: source code
+                          Location: /LIN_Stack
+
+Node Configuration File   Description: A tool [command line, UI based executable and Eclipse plugin] intended for LIN stack configuration
+[NCF] Tool				  Version: 4.5.8
+                          Author: NXP
+                          License: LA_OPT_BASE. See /LA_OPT_Base_License.html
+                          Format: binary
+                          Location: /NCFTool

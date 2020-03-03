@@ -1,0 +1,4 @@
+<map id="SLIC interface" name="SLIC interface">
+<area shape="rect" id="node1" href="$group__s08el32__group.html" title="9S08EL32 MCU" alt="" coords="365,5,480,33"/>
+<area shape="rect" id="node3" href="$group__bsp__group.html" title="BSP (Board Support Package) is the lowest layer of the LIN Stack. " alt="" coords="5,5,165,33"/>
+</map>

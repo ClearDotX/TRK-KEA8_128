@@ -1,0 +1,5 @@
+<map id="ld_save_configuration" name="ld_save_configuration">
+<area shape="rect" id="node3" href="$group__cooked__api__group.html#ga3801a1418bbe1b66111a5b74eb690fc9" title="The call packs the information specified by data and length into one or multiple diagnostic frames..." alt="" coords="199,5,324,33"/>
+<area shape="rect" id="node5" href="$group__raw__api__group.html#ga45a19bcd5fa0dd51a59b208af5815ea4" title="The call queues the transmisson of 8 bytes of data in one frame. " alt="" coords="375,5,457,33"/>
+<area shape="rect" id="node7" href="$group__transport__group.html#gacdc8c2e01df5f7f1cd08117663fcd441" title="The call copies the raw data specified by data to the queue specified by queue. " alt="" coords="507,5,587,33"/>
+</map>

@@ -1,0 +1,67 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu  {         /* Must check the correct MCU name */
+	mcu_name = MC9S12XEP100;	
+	bus_clock = 8000000;		/* Frequency bus of system Hz*/
+	xgate_support = no;		/* Support XGATE Co-Processor */
+}
+
+
+/*** LIN HARDWARE DEFINITION ***/
+/* SCI config */  
+sci{
+	s12_sci1{
+  		sci_channel	= 1;        /* Check validation of sci_channel */
+	}
+	s12_sci3{
+  		sci_channel	= 3;	/* Channel setting */
+	}
+	s12_sci5{
+  		sci_channel	= 5;	/* Channel setting */
+	}
+}
+
+/*** NETWORK DEFINITION ***/
+network {
+	idle_timeout = 5s;
+	diagnostic_class = 1;
+	max_message_length            = 6;
+	LI0{
+		node = Gateway;		/* Name of node described in LDF (must check consistence with LDF) */
+		file = "Demo_Master_Gateway.ldf";			/* Path to LDF file */
+		device = s12_sci1;		/* Identifier to LIN Hardware, related to LIN HARDWARE DEFINITION */
+		support_sid    {
+         READ_BY_IDENTIFIER      = 178;
+         ASSIGN_FRAME_ID_RANGE   = 183;
+         ASSIGN_NAD              = 176;
+         CONDITIONAL_CHANGE_NAD  = 179;
+         SAVE_CONFIGURATION      = 182;
+         }
+	}
+	LI1{
+		node = Gateway1;		/* Name of node described in LDF (must check consistence with LDF) */
+		file = "Demo_Cluster1.ldf";			/* Path to LDF file */
+		device = s12_sci3;					/* LIN Hardware interface, related to INTERFACE SECTION */
+		support_sid    {
+         READ_BY_IDENTIFIER      = 178;
+         ASSIGN_FRAME_ID_RANGE   = 183;
+         ASSIGN_NAD              = 176;
+         CONDITIONAL_CHANGE_NAD  = 179;
+         SAVE_CONFIGURATION      = 182;
+         }
+	}
+	LI2{
+		node = Gateway2;		/* Name of node described in LDF (must check consistence with LDF) */
+		file = "Demo_Cluster2.ldf";			/* Path to LDF file */
+		device = s12_sci5;					/* LIN Hardware interface, related to INTERFACE SECTION */
+		support_sid    {
+         READ_BY_IDENTIFIER      = 178;
+         ASSIGN_FRAME_ID_RANGE   = 183;
+         ASSIGN_NAD              = 176;
+         CONDITIONAL_CHANGE_NAD  = 179;
+         SAVE_CONFIGURATION      = 182;
+         }
+	}
+}

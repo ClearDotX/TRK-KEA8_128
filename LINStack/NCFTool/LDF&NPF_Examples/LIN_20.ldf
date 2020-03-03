@@ -1,0 +1,159 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.0";
+LIN_language_version             = "2.0";
+LIN_speed                        = 9.6 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      master,                                                /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      slave1;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   masterDIPState1               :  2,        0x0,               master, slave1;
+   masterDIPState2               :  4,        0x0,               master, slave1;
+   masterDIPState3               :  1,        0x0,               master, slave1;
+   masterDIPState4               :  1,        0x0,               master, slave1;
+   slave1DIPState1               :  2,        0x0,               slave1, master;
+   slave1DIPState2               :  4,        0x0,               slave1, master;
+   slave1DIPState3               :  1,        0x0,               slave1, master;
+   slave1DIPState4               :  1,        0x0,               slave1, master;
+   errorSignalSlave1             :  1,        0x0,               slave1, master;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   frmM1               :  0x0, master              ,    2 {
+      masterDIPState1     , 0;
+   }
+   frmM2               :  0x1, master              ,    1 {
+      masterDIPState2     , 0;
+   }
+   frmM3               :  0x2, master              ,    1 {
+      masterDIPState3     , 0;
+      masterDIPState4     , 1;
+   }
+   frmS1               : 0x14, slave1              ,    2 {
+      slave1DIPState1     , 0;
+   }
+   frmS2               : 0x15, slave1              ,    2 {
+      slave1DIPState2     , 8;
+   }
+   frmS3               : 0x16, slave1              ,    1 {
+      slave1DIPState3     , 0;
+      slave1DIPState4     , 1;
+      errorSignalSlave1   , 2;
+   }
+}
+/* ----------SPORADIC FRAME DEFINITIONS---------- */
+Sporadic_frames {
+   spFrm1              : frmM2;
+}
+/* ----------EVENT TRIGGERD FRAME DEFINITIONS---------- */
+Event_triggered_frames {
+   evFrmS1             :                0x1e, frmS2;
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   slave1 {
+      LIN_protocol               = 2.0;                      /* Node protocol version */
+      configured_NAD             = 0x2;                      /* configured NAD of node (1-125) */
+      product_id                 =   0x1e,    0x1,    0x0;   /* Product id */
+      response_error             = errorSignalSlave1;        /* Response error signal */
+      P2_min                     = 50 ms;                    /* P2_min */
+      ST_min                     = 10 ms;                    /* ST_min */
+      configurable_frames {
+         frmM1                   = 0x0;
+         frmM2                   = 0x1;
+         frmM3                   = 0x2;
+         frmS1                   = 0x14;
+         frmS2                   = 0x15;
+         frmS3                   = 0x16;
+         evFrmS1                 = 0x1E;
+         spFrm1                  = 0x1;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   schTabConfig {
+      AssignFrameId {slave1, frmM1}       delay 10.0 ms;
+      AssignFrameId {slave1, frmM2}       delay 10.0 ms;
+      AssignFrameId {slave1, frmM3}       delay 10.0 ms;
+      AssignFrameId {slave1, frmS1}       delay 10.0 ms;
+      AssignFrameId {slave1, frmS2}       delay 10.0 ms;
+      AssignFrameId {slave1, frmS3}       delay 10.0 ms;
+      SlaveResp                           delay 20.0 ms;
+      MasterReq                           delay 20.0 ms;
+   }
+   schTab1 {
+      frmM1                               delay 20.0 ms;
+      frmS1                               delay 20.0 ms;
+      spFrm1                              delay 20.0 ms;
+      evFrmS1                             delay 20.0 ms;
+      frmM3                               delay 20.0 ms;
+      frmS3                               delay 20.0 ms;
+   }
+   evCollisionResolving {
+      frmS2                               delay 20.0 ms;
+   }
+   Diagnostic {
+      MasterReq                           delay 20.0 ms;
+      SlaveResp                           delay 20.0 ms;
+   }
+   MasterOnly {
+      MasterReq                           delay 20.0 ms;
+   }
+   SlaveOnly {
+      SlaveResp                           delay 20.0 ms;
+   }
+}
+

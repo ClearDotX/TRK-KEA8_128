@@ -1,0 +1,5 @@
+<map id="lin_lld_int_disable" name="lin_lld_int_disable">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#gae3d44642cbb60c1e36bfefe5de05477d" title="This function disables SCI Interrupt. " alt="" coords="187,5,333,33"/>
+<area shape="rect" id="node5" href="$group___x_g_a_t_e__group.html#gaa95de95be383cb2dd77537f989d55884" title="This function disables SCI Interrupt with XGATE support. " alt="" coords="179,55,341,83"/>
+<area shape="rect" id="node7" href="$group___u_a_r_t__group.html#ga2bd6a95493dc3de2add14152ca9ec896" title="This function disables UART Interrupt. " alt="" coords="184,106,336,134"/>
+</map>

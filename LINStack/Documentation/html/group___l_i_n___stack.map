@@ -1,0 +1,7 @@
+<map id="LIN stack" name="LIN stack">
+<area shape="rect" id="node1" href="$group__lowlevel__group.html" title="Low level layer consists of core functions for the LIN protocol. " alt="" coords="161,5,260,33"/>
+<area shape="rect" id="node2" href="$group__coreapi__group.html" title="Refer to chappter 7, LIN 2.1 specification. " alt="" coords="163,55,259,83"/>
+<area shape="rect" id="node4" href="$group__transport__group.html" title="Transport layer stands between the application layer and the core API layer. " alt="" coords="145,106,276,134"/>
+<area shape="rect" id="node5" href="$group__bsp__group.html" title="BSP (Board Support Package) is the lowest layer of the LIN Stack. " alt="" coords="131,157,291,185"/>
+<area shape="rect" id="node6" href="$group__diagnostic__group.html" title="Diagnostic services defines methods to implement diagnostic data transfer between a master node..." alt="" coords="144,207,277,235"/>
+</map>

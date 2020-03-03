@@ -1,0 +1,225 @@
+/****************************************************************************/
+/*                                                                          */
+/* Description: LIN Description file created using Vector's LIN File Editor */
+/* Created:     20.09.2005                                                  */
+/* Author:      Ralf Schwering                                              */
+/* Version:     1.0                                                         */
+/* Project:     KWPSim-Demo-Configuration                                   */
+/*                                                                          */
+/****************************************************************************/
+
+// Global Definitions
+LIN_description_file;
+LIN_protocol_version = "2.1";
+LIN_language_version = "2.1";
+LIN_speed = 9.6 kbps; // baudrate (1.0-20.0)
+// End of Global Definitions
+
+Nodes // Nodes Definition
+{
+	Master:
+		LINMaster,  // master node name
+		1 ms, // time base (real)
+		0.1 ms;    // jitter (real)
+			
+	Slaves:
+		FrontLeftDoor, RearLeftDoor; // slave node names
+
+} // End of Nodes Definition
+
+Signals // Signals Definition
+{
+   	FrontLeftDoorSignal:  8,  0,  FrontLeftDoor,  LINMaster;
+    FrontLeftDoorErrSig:  1,  0,  FrontLeftDoor,  LINMaster;
+    RearLeftDoorSignal:   8,  0,  RearLeftDoor,   LINMaster;
+    RearLeftDoorErrSig:   1,  0,  RearLeftDoor,   LINMaster;
+    //Master to slave signal
+    MasterToRear:         8,  0,  LINMaster,      RearLeftDoor;
+    MasterToFront:        8,  0,  LINMaster,      FrontLeftDoor;
+	//Slave to master signal
+	RearToMasterSignal:			8, 0, RearLeftDoor, LINMaster;
+	FrontToMasterSignal:		8, 0, FrontLeftDoor, LINMaster;
+} // End of Signals Definition
+
+Diagnostic_signals // Diagnostic Signals Definition (optional)
+{
+	// MasterReq Reserved Signals	
+	MasterReqB0: 8, 0; // signal name: signal size, signal offset;
+	MasterReqB1: 8, 0;
+	MasterReqB2: 8, 0;
+	MasterReqB3: 8, 0;
+	MasterReqB4: 8, 0;
+	MasterReqB5: 8, 0;
+	MasterReqB6: 8, 0;
+	MasterReqB7: 8, 0;
+        // End of MasterReq Reserved Signals
+
+	// SlaveResp Reserved Signals
+	SlaveRespB0: 8, 0; // signal name: signal size, signal offset;
+	SlaveRespB1: 8, 0;
+	SlaveRespB2: 8, 0;
+	SlaveRespB3: 8, 0;
+	SlaveRespB4: 8, 0;
+	SlaveRespB5: 8, 0;
+	SlaveRespB6: 8, 0;
+	SlaveRespB7: 8, 0; 
+	// End of SlaveResp Reserved Signals
+
+} // End of Diagnostic Signals Definition
+
+Frames // Unconditional Frames Definition
+{
+	FrontLeftDoorMessage: 1, FrontLeftDoor, 1
+	{
+		FrontLeftDoorSignal, 0;
+	}
+  //error frame will use eventriger frame
+  	FrontLeftDoorErrEvent: 3, FrontLeftDoor, 2
+  	{
+    	FrontLeftDoorErrSig,  8;
+  	}
+	RearLeftDoorMessage: 2, RearLeftDoor, 1
+	{
+		RearLeftDoorSignal, 0;
+	}
+  	RearLeftDoorErrEvent: 4, RearLeftDoor, 2
+  	{
+    	RearLeftDoorErrSig,  8;
+  	}
+  
+	MasterToRearControl: 5, LINMaster, 1{
+    	MasterToRear , 0;
+  	}
+  	MasterToFrontControl: 6, LINMaster, 1{
+    	MasterToFront, 0;
+  	}
+  
+  	RearToMasterMessage: 7, RearLeftDoor, 1{
+		RearToMasterSignal, 0;
+  	}
+  	FrontToMasterMessage: 8, FrontLeftDoor, 1{
+		FrontToMasterSignal, 0;
+  	}
+} // End of Unconditional Frames Definition
+
+Event_triggered_frames {
+  	ETF_MotorStates: ETFCollisionResolving, 11, FrontLeftDoorErrEvent, RearLeftDoorErrEvent ;
+}
+
+Diagnostic_frames // Diagnostic Frame Definition (optional)
+{
+	MasterReq: 60 // reserved frame name and frame identifier
+	{
+		MasterReqB0, 0; // diagnostic signal name, signal offset
+		MasterReqB1, 8;
+		MasterReqB2, 16;
+		MasterReqB3, 24;
+		MasterReqB4, 32;
+		MasterReqB5, 40;
+		MasterReqB6, 48;
+		MasterReqB7, 56;
+	}
+
+	SlaveResp: 61 // reserved frame name and frame identifier
+	{
+		SlaveRespB0, 0; // diagnostic signal name, signal offset
+		SlaveRespB1, 8;
+		SlaveRespB2, 16;
+		SlaveRespB3, 24;
+		SlaveRespB4, 32;
+		SlaveRespB5, 40;
+		SlaveRespB6, 48;
+		SlaveRespB7, 56;
+	}
+} // End of Diagnostic Frame Definition
+
+Node_attributes // Node Attributes Definition
+{	
+  FrontLeftDoor // node name
+	{
+		LIN_protocol = "2.1";
+		configured_NAD = 0x11;  // initial NAD of node (1-126)
+		initial_NAD = 0x11 ;
+		product_id = 
+			0x0021,               // supplier_id (0-0x7FFE)  <--> 0-0xFFDE
+			1,                    // function_id (0-0xFFFE)
+			0;                    // variant (0-0xFF)
+		response_error = FrontLeftDoorErrSig;  // name of 1 bit error signal
+		P2_min = 51 ms;         // min. time (real) between MasterReq and SlaveResp 
+		ST_min = 2 ms;          // min. time (real) between consecutive SlaveResps 
+        N_As_timeout = 1001 ms;
+        N_Cr_timeout = 1002 ms; 
+		configurable_frames 
+		{
+			// list of configurable frames
+			FrontLeftDoorMessage; // frame name with message id (0-0xFFFE)
+			MasterToFrontControl;
+			FrontLeftDoorErrEvent;
+			FrontToMasterMessage;
+            ETF_MotorStates;
+		}
+	} // End of Node Attribut
+
+  RearLeftDoor // node name
+	{
+		LIN_protocol = "2.1";
+		configured_NAD = 0x12;  // initial NAD of node (1-126)
+		initial_NAD = 0x12 ;
+		product_id = 
+			0x0022,               // supplier_id (0-0x7FFE)
+			1,               // function_id (0-0xFFFE)
+			0;                   // variant (0-0xFF)
+		response_error = RearLeftDoorErrSig;  // name of 1 bit error signal
+		P2_min = 51 ms;       // min. time (real) between MasterReq and SlaveResp 
+		ST_min = 2 ms;       // min. time (real) between consecutive SlaveResps 
+        N_As_timeout = 1001 ms;
+        N_Cr_timeout = 1002 ms; 
+		configurable_frames 
+		{
+			// list of configurable frames
+			RearLeftDoorMessage; // frame name with message id (0-0xFFFE)
+			MasterToRearControl;
+			RearLeftDoorErrEvent;
+			RearToMasterMessage;
+            ETF_MotorStates;
+		}
+	} // End of Node Attribut
+
+} // End of Node Attributes Definition
+
+Schedule_tables {
+  MasterReq_Table {
+    MasterReq delay 20 ms ;
+  }
+  SlaveResp_Table {
+    SlaveResp delay 20 ms ;
+  }
+  Diagnostic {
+    MasterReq delay 20 ms ;
+    SlaveResp delay 20 ms ;
+  }
+  ETFCollisionResolving {
+    FrontLeftDoorErrEvent delay 50 ms ;
+    RearLeftDoorErrEvent delay 50 ms ;
+  }
+  InitTable {
+    AssignNAD { FrontLeftDoor } delay 20 ms ;
+    SlaveResp delay 20 ms ;
+    AssignNAD { RearLeftDoor } delay 20 ms ;
+    SlaveResp delay 20 ms ;
+    AssignFrameIdRange { FrontLeftDoor, 0 } delay 20 ms ;
+    AssignFrameIdRange { RearLeftDoor, 0 } delay 20 ms ;
+  }
+  NormalTable {
+    RearLeftDoorMessage   delay 10 ms;
+	RearToMasterMessage	  delay 10 ms;
+    FrontLeftDoorMessage  delay 10 ms;
+	FrontToMasterMessage  delay 10 ms;
+    ETF_MotorStates       delay 20 ms;
+	MasterToFrontControl  delay 10 ms;
+	MasterToRearControl  delay 10 ms;
+	
+  }
+}
+
+

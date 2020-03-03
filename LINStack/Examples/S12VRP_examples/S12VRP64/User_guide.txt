@@ -1,0 +1,30 @@
+User Guide 
+1) Overview:
+This example demonstrates the LIN communication between S12VRP64 Master and Slave using unconditional frames.
+2) Hardware requirements
+- 1 PE Micro Multi-link universal
+- 2 X-VLBD-S12VRP64 boards
+- 1 LIN cable
+- 1 Power Adapter 12V
+- 1 Personal Computer
+3) Tool chain requirements
+- CodeWarrior IDE v5.2
+-  MCU v5.2 HCS12 Service Pack for HCS12VRP64
+4) Hardware settings
+- Connect pin 1 and pin 2, pin 7 and pin 8 of j108 for LED2.
+- For Linphy:
+  Connect j3
+  Connect pin 3 and pin 4, pin 5 and pin 6 of j34
+  Connect pin 3 and pin 4 of j29
+  Connect pin 9 and pin 10 of j33
+  Connect pin 1 and pin 2 of J9 
+  Connect pin 1 and pin 2 of J37
+5) Prepare the example
+	5.1) Use LIN cable to connect J15 of S12VRP64 Master to J15 of S12VRP64 Slave.
+	5.2) Plug power connector of Adapters 12V to J238 of S12VRP64 Master.
+	5.3) Open CodeWarrior 5.2, import example projects, build projects and download the programs to boards.
+
+6)Run the example
+	6.1) After reset, LED2 of both boards are off.
+	6.2) LED2 of both boards are on for about 7s.
+	6.3) Afterwards, LED2 of both boards toggles forever.

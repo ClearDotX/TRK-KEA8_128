@@ -1,0 +1,8 @@
+<map id="lin_lld_tx_wake_up" name="lin_lld_tx_wake_up">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga7abd873b5868c867bf72a6c94b52e358" title="This function requests to send wake up signal via SCI channel. " alt="" coords="192,5,347,33"/>
+<area shape="rect" id="node7" href="$group___x_g_a_t_e__group.html#gaa50a47345d6615422996a709940c6edb" title="This function sets SLIC module to low power mode. " alt="" coords="185,55,353,83"/>
+<area shape="rect" id="node9" href="$group__s08qd4__group.html#gaabeb39d4da7f02cbc1589eb8cf22f32a" title="This function transmits wakeup signal. " alt="" coords="189,106,349,134"/>
+<area shape="rect" id="node11" href="$group___u_a_r_t__group.html#ga3ebe93f2ef9cf0f8755bb37f39a628e5" title="This function requests to send wake up signal via UART channel. " alt="" coords="189,157,349,185"/>
+<area shape="rect" id="node5" href="$group___s_c_i__group.html#gac5a108ce9a877dd815caf1522bcff034" title="Enter IDLE state. " alt="" coords="404,5,532,33"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#ga9c1da18f7719779b77aad4d73b95f0f5" title="Enter IDLE state. " alt="" coords="404,157,532,185"/>
+</map>

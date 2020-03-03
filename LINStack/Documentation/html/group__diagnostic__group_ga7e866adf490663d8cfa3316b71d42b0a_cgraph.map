@@ -1,0 +1,4 @@
+<map id="lin_diagservice_read_by_identifier" name="lin_diagservice_read_by_identifier">
+<area shape="rect" id="node3" href="$group__cooked__api__group.html#ga6df04a187199e845710f628e4e3c4554" title="The call prepares the LIN diagnostic module to receive one message and store it in the buffer pointed..." alt="" coords="208,5,347,33"/>
+<area shape="rect" id="node5" href="$group__transport__group.html#ga6733ad4bba07b208ce80550a3b910165" title="This function is implemented for Slave only. " alt="" coords="193,55,361,83"/>
+</map>

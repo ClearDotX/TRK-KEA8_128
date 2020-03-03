@@ -1,0 +1,17 @@
+<map id="l_sys_init" name="l_sys_init">
+<area shape="rect" id="node3" href="$group___x_g_a_t_e__group.html#gace3072ff31f7860091d4cce8cebfbf00" title="This function performs setup of the XGATE module. " alt="" coords="132,30,263,58"/>
+<area shape="rect" id="node5" href="$group__lowlevel__group.html#ga58467968cb430781c22358b7aee82809" title="Initialize the timer. " alt="" coords="140,81,255,109"/>
+<area shape="rect" id="node7" href="$group___s_c_i__group.html#ga5649b943f77a1978677babf95d5200e8" title="Initialize TPM Timer and Configures the PIT (Periodic Interrupt Timer) to generate a periodic interru..." alt="" coords="312,5,464,33"/>
+<area shape="rect" id="node9" href="$group___s_c_i__group.html#gaf747207b8583711b2c09fbd681378244" title="Initialize TIM1 timer. " alt="" coords="316,55,460,83"/>
+<area shape="rect" id="node11" href="$group___s_c_i__group.html#ga4b1c77243aa1ec6497b7eecdb8ae84b3" title="Timer interrupt service routine. " alt="" coords="316,106,460,134"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#ga867addbcc5c709bd841d960fad730764" title="Initialize TIM1 timer. " alt="" coords="323,157,453,185"/>
+<area shape="rect" id="node15" href="$group___s_c_i__group.html#gaa698d4b7be105c028df8fe30a531879d" title="Timer interrupt service routine. " alt="" coords="523,131,635,159"/>
+<area shape="rect" id="node21" href="$group___u_a_r_t__group.html#ga738c83ecf32a5d55077f5ffa54e6f4e6" title="This function is called in period Tbit in order to check timeout for IDLE and MAXFRAME. " alt="" coords="512,182,645,210"/>
+<area shape="rect" id="node17" href="$group___s_c_i__group.html#gaef525b1ebee1d5dddf543828d0d0a0a8" title="This function is called in period Tbit in order to check timeout for IDLE and MAXFRAME. " alt="" coords="693,131,821,159"/>
+<area shape="rect" id="node19" href="$group___s_c_i__group.html#gac5a108ce9a877dd815caf1522bcff034" title="Enter IDLE state. " alt="" coords="871,131,999,159"/>
+<area shape="rect" id="node23" href="$group___u_a_r_t__group.html#ga9c1da18f7719779b77aad4d73b95f0f5" title="Enter IDLE state. " alt="" coords="1049,233,1177,261"/>
+<area shape="rect" id="node25" href="$group___u_a_r_t__group.html#gadd0f5ce886b1fc581c92aea677cbd5ae" title="UART Interrupt service routine that handles RX LIN Communication. " alt="" coords="696,283,819,311"/>
+<area shape="rect" id="node28" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="872,283,997,311"/>
+<area shape="rect" id="node30" href="$group__lowlevel__group.html#ga9cdf22a3cab45a36880d58fe1f3ea314" title="Calculate checksum byte. " alt="" coords="884,334,985,362"/>
+<area shape="rect" id="node32" href="$group___u_a_r_t__group.html#ga56f181e73a2dc3e6c938821122f7532b" title="UART init. " alt="" coords="881,385,988,413"/>
+</map>

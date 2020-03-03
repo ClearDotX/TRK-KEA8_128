@@ -1,0 +1,4 @@
+<map id="lin_make_res_diag_frame" name="lin_make_res_diag_frame">
+<area shape="rect" id="node3" href="$group__transport__group.html#gad291a2312410f9b8a118d79dc9c7dcdf" title="This function copy the current PDU to Response Buffer in Low&#45;level. " alt="" coords="221,5,323,33"/>
+<area shape="rect" id="node5" href="$group__transport__group.html#gada32f583f5bfebbe47c4f61dc7e767c3" title="The call gets the raw data from the queue specified by queue to the raw data specified by data specif..." alt="" coords="371,5,451,33"/>
+</map>

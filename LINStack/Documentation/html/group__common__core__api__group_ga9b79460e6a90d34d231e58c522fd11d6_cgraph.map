@@ -1,0 +1,21 @@
+<map id="lin_update_rx" name="lin_update_rx">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#gaa9923fe3dd50f5b9d79015855d70c737" title="Update signal, status and flags after received response. " alt="" coords="153,78,313,106"/>
+<area shape="rect" id="node5" href="$group__common__core__api__group.html#gae99495fbfaf826570159a500a90b32ee" title="update the receive flags associated with signals/frames in case receive a diagnostic frame..." alt="" coords="169,129,297,173"/>
+<area shape="rect" id="node45" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="155,195,312,239"/>
+<area shape="rect" id="node47" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="155,262,312,306"/>
+<area shape="rect" id="node7" href="$group__lowlevel__group.html#ga144ae9fecb6ce0c4e1e9a0aae1d11903" title="Let the low level driver go to low power mode. " alt="" coords="364,83,548,111"/>
+<area shape="rect" id="node15" href="$group__transport__group.html#gac8a768c4d31d4d5143c998bfbd3f9a8b" title="This function put response buffer (in Low&#45;level ) to PDU data on the Transport Layer. " alt="" coords="405,137,507,165"/>
+<area shape="rect" id="node17" href="$group__transport__group.html#ga42a651ad15d8f45b38713605f9d50bbf" title="This function handles the diag service and control event and data in Transport Layer. " alt="" coords="408,193,504,221"/>
+<area shape="rect" id="node9" href="$group___s_c_i__group.html#ga92176fe6b74e56014c33e991a81e2760" title="Request to enter low power mode in SCI Driver. " alt="" coords="605,5,733,49"/>
+<area shape="rect" id="node11" href="$group___x_g_a_t_e__group.html#gae028c761e36a3b088b15ddef9d40bf19" title="Request to enter low power mode in SCI Driver. " alt="" coords="597,71,741,115"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#gadabae51c9b3c1ad08c60f2fdd74a386e" title="Request to enter low power mode in UART Driver. " alt="" coords="603,138,736,182"/>
+<area shape="rect" id="node19" href="$group__transport__group.html#ga51cf301e9843bcac24930029cecd9945" title="This function make a connection to Diag service class that support for LIN function. " alt="" coords="600,205,739,233"/>
+<area shape="rect" id="node21" href="$group__diagnostic__group.html#gad9601a320fad7f27d5b52db972684436" title="process functional request " alt="" coords="793,97,937,141"/>
+<area shape="rect" id="node25" href="$group__diagnostic__group.html#ga7e866adf490663d8cfa3316b71d42b0a" title="process read by identifier request, and also prepare its response data " alt="" coords="797,230,933,274"/>
+<area shape="rect" id="node28" href="$group__transport__group.html#ga6733ad4bba07b208ce80550a3b910165" title="This function is implemented for Slave only. " alt="" coords="991,238,1159,266"/>
+<area shape="rect" id="node30" href="$group__diagnostic__group.html#ga6df4b927b790488af2f9576482a5c15e" title="process assign frame id range request, and also prepare its response data " alt="" coords="791,163,940,207"/>
+<area shape="rect" id="node37" href="$group__diagnostic__group.html#ga1339775a4307a8812306d8c299e66782" title="process functional request " alt="" coords="791,30,940,74"/>
+<area shape="rect" id="node42" href="$group__diagnostic__group.html#ga30cfc0da09df4d6d28a5d56dd6484c24" title="process read by identifier request, and also prepare its response data " alt="" coords="793,347,937,391"/>
+<area shape="rect" id="node23" href="$group__cooked__api__group.html#ga6df04a187199e845710f628e4e3c4554" title="The call prepares the LIN diagnostic module to receive one message and store it in the buffer pointed..." alt="" coords="1005,151,1144,179"/>
+<area shape="rect" id="node34" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="1012,59,1137,87"/>
+</map>

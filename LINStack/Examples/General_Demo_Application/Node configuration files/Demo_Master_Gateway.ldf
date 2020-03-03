@@ -1,0 +1,115 @@
+LIN_description_file;
+LIN_protocol_version = "2.1";
+LIN_language_version = "2.1";
+LIN_speed = 19.2 kbps;
+
+Nodes {
+  Master: MasterNode, 5 ms, 0.1 ms ;
+  Slaves: Gateway ;
+}
+
+Signals {
+  Cluster1Potentiometer1: 8, 0, Gateway, MasterNode;
+  Cluster1LightSensor1: 8, 0, Gateway, MasterNode;
+  Cluster1Potentiometer2: 8, 0, Gateway, MasterNode;
+  Cluster2PotentiometerA: 8, 0, Gateway, MasterNode;
+  Cluster2LightSensorA: 8, 0, Gateway, MasterNode;
+  Cluster2PotentiometerB: 8, 0, Gateway, MasterNode;
+  Cluster2PotentiometerC: 8, 0, Gateway, MasterNode;
+  GatewayError: 1, 0, Gateway, MasterNode;
+  ClusterIdentifier: 2, 0, MasterNode, Gateway;
+}
+
+Diagnostic_signals {
+  MasterReqB0: 8, 0 ;
+  MasterReqB1: 8, 0 ;
+  MasterReqB2: 8, 0 ;
+  MasterReqB3: 8, 0 ;
+  MasterReqB4: 8, 0 ;
+  MasterReqB5: 8, 0 ;
+  MasterReqB6: 8, 0 ;
+  MasterReqB7: 8, 0 ;
+  SlaveRespB0: 8, 0 ;
+  SlaveRespB1: 8, 0 ;
+  SlaveRespB2: 8, 0 ;
+  SlaveRespB3: 8, 0 ;
+  SlaveRespB4: 8, 0 ;
+  SlaveRespB5: 8, 0 ;
+  SlaveRespB6: 8, 0 ;
+  SlaveRespB7: 8, 0 ;
+}
+
+Frames {
+  GatewayControl: 1, MasterNode, 1 {
+    ClusterIdentifier, 0;
+  }
+  PotentiometerInfo: 2, Gateway, 5 {
+	Cluster1Potentiometer1, 0;
+	Cluster1Potentiometer2, 8;
+	Cluster2PotentiometerA, 16;
+	Cluster2PotentiometerB, 24;
+	Cluster2PotentiometerC, 32;
+  }
+  
+  LightSensorInfo: 3, Gateway, 3 {
+	Cluster1LightSensor1, 0;
+	Cluster2LightSensorA, 8;
+	GatewayError, 16;
+  }
+}
+
+Sporadic_frames {
+  SporadicControlFrame: GatewayControl;
+}
+
+Diagnostic_frames {
+  MasterReq: 0x3c {
+    MasterReqB0, 0 ;
+    MasterReqB1, 8 ;
+    MasterReqB2, 16 ;
+    MasterReqB3, 24 ;
+    MasterReqB4, 32 ;
+    MasterReqB5, 40 ;
+    MasterReqB6, 48 ;
+    MasterReqB7, 56 ;
+  }
+  SlaveResp: 0x3d {
+    SlaveRespB0, 0 ;
+    SlaveRespB1, 8 ;
+    SlaveRespB2, 16 ;
+    SlaveRespB3, 24 ;
+    SlaveRespB4, 32 ;
+    SlaveRespB5, 40 ;
+    SlaveRespB6, 48 ;
+    SlaveRespB7, 56 ;
+  }
+}
+
+Node_attributes {
+  Gateway{
+    LIN_protocol = "2.1";
+    configured_NAD = 0x1;
+    initial_NAD = 0xa;
+    product_id = 0x1e, 0x1, 0;
+	response_error = GatewayError;
+    P2_min = 100 ms;
+    ST_min = 20 ms;
+    N_As_timeout = 1000 ms;
+    N_Cr_timeout = 1000 ms;
+    configurable_frames {
+	  GatewayControl;
+      PotentiometerInfo;
+	  LightSensorInfo;
+	  SporadicControlFrame;
+    }
+  }
+}
+
+Schedule_tables {
+ NormalTable {
+    PotentiometerInfo delay 50 ms;
+    LightSensorInfo delay 50 ms;
+    SporadicControlFrame delay 20 ms;
+  }
+}
+

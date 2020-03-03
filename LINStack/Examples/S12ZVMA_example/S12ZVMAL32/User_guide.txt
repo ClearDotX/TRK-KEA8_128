@@ -1,0 +1,24 @@
+User Guide
+1) Overview:
+This example demonstrates the LIN communication between S12ZVMAL32 Master and Slave using unconditional frames.
+2) Hardware requirements
+- 2 S12ZVMAL32 Validation boards schematics: SCH-28995
+- 1 LIN cable
+- 1 Power Adapter 12V
+- 1 Personal Computer
+3) Tool chain requirements
+- CodeWarrior IDE v10.6.4 or above
+-  MCU v10.6 S12Z Service Pack for HCS12Z S12ZVM
+4) Hardware settings
+- Connect pin 1 and pin 3 of J14 to provide power for LINPHY.
+- Connect pin 1 and pin 2 of J43, pin 3 and pin4 of J43, pin 1 and pin 2 of J24.
+- Connect pin 1 and pin 2, pin 7 and pin 8 of J596 for LEDs.
+5) Prepare the example
+    5.1) Use LIN cable to connect J10 of S12ZVMAL32 Master to J10 of S12ZVMAL32 Slave.
+    5.2) Plug power connector of Adapters 12V to J6 of S12ZVMAL32 Master.
+    5.3) Open CodeWarrior 10.6.4, import example projects, build projects and download the programs to boards.
+
+6)Run the example
+    6.1) After reset, LED2 of both boards are off.
+    6.2) LED2 of Master board and Slave board are on for about 7s.
+    6.3) Afterwards, LED2 of Master board and Slave board toggles forever.

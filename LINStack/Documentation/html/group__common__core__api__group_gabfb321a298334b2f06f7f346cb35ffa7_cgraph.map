@@ -1,0 +1,8 @@
+<map id="lin_bus_activity_timeout" name="lin_bus_activity_timeout">
+<area shape="rect" id="node3" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="228,5,385,49"/>
+<area shape="rect" id="node5" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="228,71,385,115"/>
+<area shape="rect" id="node7" href="$group__lowlevel__group.html#ga144ae9fecb6ce0c4e1e9a0aae1d11903" title="Let the low level driver go to low power mode. " alt="" coords="215,138,399,166"/>
+<area shape="rect" id="node9" href="$group___s_c_i__group.html#ga92176fe6b74e56014c33e991a81e2760" title="Request to enter low power mode in SCI Driver. " alt="" coords="456,63,584,107"/>
+<area shape="rect" id="node11" href="$group___x_g_a_t_e__group.html#gae028c761e36a3b088b15ddef9d40bf19" title="Request to enter low power mode in SCI Driver. " alt="" coords="448,130,592,174"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#gadabae51c9b3c1ad08c60f2fdd74a386e" title="Request to enter low power mode in UART Driver. " alt="" coords="453,197,587,241"/>
+</map>

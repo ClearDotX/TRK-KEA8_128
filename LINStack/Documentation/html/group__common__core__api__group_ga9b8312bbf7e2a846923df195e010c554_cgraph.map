@@ -1,0 +1,6 @@
+<map id="lin_handle_error" name="lin_handle_error">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#ga1c17226ae2c4f7dc188d8acf4381efe9" title="This function is return the index of a frame in frame list or 0xFF if not found. " alt="" coords="176,5,312,33"/>
+<area shape="rect" id="node5" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="165,55,323,99"/>
+<area shape="rect" id="node7" href="$group___j2602__core__api__group.html#gadf0a058a6759e33065fe783cc1ec1927" title="The function is to perform the update of error signal in J2602 system. " alt="" coords="167,122,321,150"/>
+<area shape="rect" id="node9" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="165,173,323,217"/>
+</map>

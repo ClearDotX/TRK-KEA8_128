@@ -1,0 +1,348 @@
+﻿************************************************************************************
+LIN2.x and SAE J2602 Stack package for S08 / S12/ KEA platforms
+
+Freescale(TM) and the Freescale logo are trademarks of Freescale Semiconductor, Inc.
+
+All other product or service names are the property of their respective owners.
+(C) Freescale Semiconductor, Inc. 2008-2016
+Copyright 2016-2019 NXP
+
+Release Version: 4.6.3
+************************************************************************************
+
+************************************************************************************
+Release content :
+************************************************************************************
+The LIN Stack package is compliant to LIN 2.0 and LIN 2.1 / 2.2a specifications
+    - compliance option select in LDF file: LIN_protocol_version = ["2.0"|"2.1"]
+The LIN Stack package contains the following deliverables:
+    - Source code for LIN Stack (/LIN_Stack)
+    - Source code for Demo and Sample Applications (/Examples)
+    - Node configuration Tool (used to generate stack configuration file) (/NCF_Tool)
+    - Node configuration files for Demo applications and individual sample projects
+    - Documentations:   LIN Stack User Manual
+                        Eclipse plug-in user manual
+                        HTML Documentation
+************************************************************************************
+Changes from version 4.6.2 :
+************************************************************************************
+    Fix an issue Lin sleep timeout does not reset when received break signal 
+    in IDLE state
+
+    Updated Eclipse plug-in to version 1.5.1
+
+************************************************************************************
+LIN 2.x and SAE J2602 Stack package supports the following S08 and S12X derivatives:
+************************************************************************************
+GPIO(Bit-Bang):
+    9S08QD4
+
+SLIC:
+    9S08EL32
+
+SCIv2:
+    9S08AW16A
+    9S08AW60
+
+SCIv4:
+    9S08SG32
+    9S08SG8
+    9S08DZ60
+    9S08DZ128
+    9S08EL32
+    0S08MP16
+    9S08LG32
+    9S08SC4
+    9S08RN60
+
+SCIv5:
+    9S12HY64
+    9S12P128
+    9S12XS128
+    9S12XS256
+    9S12XEP100
+    9S12XEQ512
+    9S12XET256
+    9S12XDP512
+    9S12XF512
+    9S12G128
+    9S12XHY256
+    9S12GN32
+    9S12G64
+    9S12G128
+    9S12G240
+
+SCIv5+XGATE:
+    9S12XEP100
+    9S12XEQ512
+    9S12XET256
+    9S12XDP512
+    9S12XF512
+
+SCIv6:
+    9S12ZVL32
+    9S12ZVL128
+    9S12ZVH128
+    9S12VR64
+    9S12VR32
+    9S12ZVML31
+    9S12ZVML128
+    9S12ZVMC256
+    9S12ZVHY64
+    9S12ZVMAL16
+    9S12ZVMA16
+    9S12ZVMAL32
+    9S12ZVMA32
+    9S12ZVMBA48
+    9S12ZVMB48
+    9S12ZVMBA64
+    9S12ZVMB64
+
+LIN phy:
+    MM912F634
+    MM912G634
+    MM912H634
+    MM912J637
+    MM912Z1J638
+
+Kinetis:
+    SKEAZN84
+    SKEAZN642
+    SKEAZ1284
+
+It could be easily ported to other sub-derivatives using the IPs version defined above.
+
+
+************************************************************************************
+Supported Tools
+************************************************************************************
+S08 platform:
+ - CodeWarrior for Microcontrollers V6.2
+ - CodeWarrior for Microcontrollers V6.3
+S12 platform:
+ - CodeWarrior for HCS12(X) V4.7
+ - CodeWarrior for HCS12(X) V5.1
+ - CodeWarrior for HCS12 V5.2
+S12Z platform:
+ - CodeWarrior MCU v10.6.4
+KEA platform:
+ - CodeWarrior MCU v10.6
+
+The Stack was tested using:
+CANOE.LIN version 7.5.41
+
+************************************************************************************
+Release History
+************************************************************************************
+v1.0.0
+ - LIN Driver Release package
+v1.1.0
+ - Updated source code for LIN Driver:
+     - Change request 1 (CR01): Change timeout setting from runtime to compile time
+    - Bug fix for LCT_D2; LCT_D5; LCT_D6; LCT_D7; LCT_D9; LCT_D10; LCT_D11; LCT_D14; LCT_D20; LCT_D21; LCT_D22.
+ - Updated source code for Demo Application: CR01
+ - Updated source code for Node configuration Tool: CR01
+ - Updated Node configuration files for Demo application and conformance project test
+ - Updated configuration files in Example code
+v2.1
+ - Diagnostics features added for DZ60 slave mode
+v2.3
+ - Diagnostics features added for DZ60/DZ128 master mode
+
+v3.0
+ - Full featured LIN driver
+ - Diagnostics layer classes 1,2,3 supported
+ - Improved SCI layer combination
+ - Added resynchronization feature
+v3.1
+ - New hardware platforms support: MM912x battery sensors (QuIBS)
+ - Updated Driver with timer optional selection for S12X MCU
+ - Updated NCF tool with new NPF file structure
+
+v4.0
+ - New hardware platforms support: S12G240
+ - LIN configuration plugin for Eclipse
+v4.1
+ - added CAN demo
+ - added AUTOSAR wrapper example
+v4.2
+ - New hardware platforms support
+    S08:
+        9S08LG32
+        9S08SC4
+    S12:
+        9S12GN32
+        9S12G64
+        9S12G128
+        S12G240
+        9S12VR64 (MagniV family)
+
+    MM912 (MagniV):
+        MM912F634
+        MM912G634
+        MM912H634
+        MM912J637 (QuIBS family)
+ - New NPF input file structure for the generated configuration code
+ - Added timer optional selection feature for S12X
+ - Added Static API functions has been added
+ - Added API functions for set configuration, save configuration, get configuration
+ - Corrected error on ld_read_by_id_callout API function
+ - Updated customer request on diagnostic implementation
+ - Sample projects for MagniV platform
+ - Sample project for 9S12VR64 for LIN Physical Layer with SCI use case.
+V4.3
+ - New hardware platforms support
+    Carcassonne 9S12ZVM128 cut 2
+V4.4.1
+ - SCI_V6 interface support
+ - New hardware platforms support
+    S12ZVL32_Knox
+    S12ZVHY64_Lumen
+    MM912Z1J638 QuIBS+Z
+    9S08RN60
+    S912VR64 rev.3
+ - Changed timer channel allocation for 9S12ZVM to avoid conflict with motor control SW
+ - Fix issue of NCF tool for master project generation
+ - Update User Manual for LIN_PHY explanation
+ - Add Eclipse User Manual
+V4.5.1
+ - New hardware platforms support (ARM core MCUs):
+    KEA8
+    KEA64
+    KEA128
+ - add AUTOBAUD feature for 9600 and 19200 bps and applicable for S12Z MCU family
+ - fix issue of NCF tool for generating wrong flag update function for 16 scalar signal
+V4.5.2
+ - New hardware platforms support: 9S12ZVC64
+    - Service request supported:
+        - fixed time slot calculation and return value in the l_sch_tick() function
+        - KEA support changed to use timer channel FTM1_CH0
+        - fixed NCF tool handling of 16-bit signal values
+        - fixed event trigger flags and collision table switching behavior
+V4.5.3
+ - New hardware platforms supported:
+    S12ZVML31  (Obidos)
+    9S12VR32 (Tomarino)
+ - Fix bug on NCFTool generating incorrect cfg files for the Kinetis KEA platform.
+V4.5.4
+ - Changed name of the LIN Driver to LIN Stack
+ - Fix bug on Event Triggered Frame with collision resolving fails: wrong checksum error
+ - Fix bug on Event Triggered Frame with errors in collision resolving fails: wrong checksum error, IUT not respond
+ - Fix bug on Error in Transmitted Frame with Collision: Failed: wrong checksum error
+ - Fix bug for DUT responded with incorrect status information to request message
+ - Fix bug on Max idle timeout is not correct for Kinetis KEA128, KEA64
+
+v4.5.5
+    - New hardware platforms supported: S12ZVL128 and S12ZVMC256
+    - Correct time out calculation for auto baud rate feature
+    - Fix bug on lacking of assign NAD and conditional change NAD
+    - Fix bug on sending wrong goto sleep command
+    - Fix bugs for auto baud rate feature
+
+v4.5.6
+    - Add feature LIN-28: Allow users to configure max_message_length in npf files instead of hardcoded
+    - Add feature LIN-20: Add configurable support_sid to npf files
+    - Fix issue LIN-22 Using bit manipulation instruction for clearing flag
+      TIM0TFLG1_C2F = 0x01; command inadvertently clear other interrupt flags
+      in the same register on S12Z Magni V devices
+    - Fix issue LIN-23 OR flag is still set when the RDRF is already cleared after clearing sequence for RDRF flag and OR flag on S12Z Magni V devices
+    - Update SCI Version of S12ZVHY64 to SCIV6 due to updated silicon version
+
+v4.5.7
+    - Fixed issue LIN-45: Lack of one frame of the current node in Configurable_frames of Node_attributes caused exception in NCF tool.
+    - Fixed issue LIN-44: Localization of using comma for decimal symbol causes error in Eclipse plug-in GUI Editor for Eclipse IDE version 4.2 and above.
+    - Fixed issue LIN-39: NCF tools do not generate code when initial NAD is initialized in Node_attributes for LIN2.0 node
+    - Fixed issue LIN-38: LIN_FLAG_BYTE_OFFSET of the 8th signal is shifted to wrong frame when the unconditional frame contains 8, 16 or multiple of 8 signals
+    - Fixed issue LIN-37: TIME_BASE_PERIOD is dependent on time base period, sometimes create timeout error if time base is about 1 ms
+    - Fixed issue LIN-36: NCF Configuration tool allows users to choose MasterReq to be included in a schedule table, but generates wrong lin_schedule_tbl.
+    - Fixed issue LIN-34: the slave ignores first frame if auto-baud enabled
+    - Fixed issue: Response for Read by Identifier command with id is 1 for serial number
+        contains wrong PCI (0x06). Changed response to Not supported identifier.
+        Updated Eclipse plug-in to version 1.4.6
+
+v4.5.8
+    *Features
+        LIN-41: Add support in LIN stack and NCF tool for packing AmbTRawQly signal into multiple frame: CEMLIN3Fr02 and CEMLIN3Fr03.
+        LIN-46: Update LIN Stack to support S12ZVMB64 and S12ZVMA32
+    *Fixes:
+        LIN-40: Generated byte, bit offsets in lin_cfg.h sometimes are repeated in case some signals in ldf do not belong to any frames
+        LIN-48: NCF tool command line not working for S12/MagniV/KEA
+        LIN-55: Update example LDF for lin 2.x driver
+        LIN-56: NCF generate LI0_lin_configuration_RAM and LI0_lin_configuration_ROM missing sporadic frame
+
+v4.5.9
+    *Features
+        LIN-60: Update Lin stack to support S12VRP64 and S12VRP48
+        LIN-61: Create example project for VRP64
+    *Fixes:
+        LIN-49: [Eclipse Plugin] Validate ldf file successfully but generate config files failed due to "Missing frame in LDF Configurable frames in Node Attributes" error
+        LIN-51: NCFTool generate code wrong with data_dump and save_configuration diagnostic service
+        LIN-52: it does not work correctly in master node with diagnostic class 2-3 and diagnostic service that was not defined by user
+
+v4.6.0
+    *Features:
+        LIN-82: lin J2602 doens't have method to update id and nad base on DNN
+    *Fixes:
+        LIN-68: Update to make lin node application haven't received a signal value that is partly updated
+        LIN-71: Error when generate message ID wrong for slave node of lin 2.0 and doesn't support mandatory services
+        LIN-72: For LIN 2.0 should support more fields in format of Assign NAD in schedule table
+        LIN-74: Incorrect return value of l_sch_tick()
+        LIN-75: fix error l_ifc_read_status() returns incorrect value
+        LIN-77: function read write signal return wrong value with scalar signal have length greater than two bit and lie in two bytes of frame
+        LIN-78: stack mising update error signal if error signal lie in multiple frame and update wrong error signal in lin2.0
+        LIN-80: The value of entry number in function l_sch_set should be in the range 0 to N if the schedule table has N entries, and if entry is 0 or 1 the new schedule table will be started from the beginning
+        LIN-83: [LIN][Multi_Interface][UART] No block of wake up signals has been sent when call function l_ifc_wake_up()
+        LIN-84: [LIN][Multi_Interface][FramingError] Lin driver base on UART does NOT process framing error
+        LIN-87: [LIN][Class1][MultiInterface] Not handle some diagnostic service when Rx raw data status is LD_QUEUE_FULL
+        LIN-88: [LinStack]Error in transport layer use diagnostic class 1, slave doesn't discard previous diagnostic request when receive a new diagnostic request.
+        
+v4.6.1
+    *Feature:
+        LIN-86: [LIN][2.0][EventTriger] Lin 2.0 should be supported event trigger frame
+        LIN-93: [LIN] Turn on diagnostic class 2, 3 for lin J2602
+    *Fixes:
+        LIN-94: [LIN] The LIN stack run error with LIN Signals lie in frame offset higher than 256
+        LIN-95: [LIN] error regarding wait state and disturb data from logic 0 to 1 in S12ZVL
+        LIN-96: last pid in status byte return wrong when slave go to sleep mode.
+        
+v4.6.2
+    *Feature:
+        LIN-97: [LIN] Add feature auto detect baudrate 19200/9600 for KEA128 KEA64 KEA8 with slave mode UART0 and using FTM0 channel 1
+
+v4.6.3
+    *Fixes:
+        LIN-99: [LIN] Lin sleep timeout counter does not reset in IDLE state
+
+************************************************************************************
+Known issues
+************************************************************************************
+LCT_D13: Conformance test on S12X
+No wake up detected signal for XGATE+SCI interface at low baudrate (2400bps)
+
+LCT_D14: Conformance test on MM912F634 MCU
+CANoe sends framing error to DUT and expect the DUT detect this error to feedback to CANoe
+When using MM912J637 for LIN cluster, set the bus_clock of MCU as 8192000 Hz (not 8Mhz as usual)
+
+The current ld_receive_message is implemented as synchronous function. It should be implemented as asynchronous function.
+Cannot use ld_receive_message to get diagnostic message with diagnostic services which already support handle by stack.
+
+A signal is considered transmitted (latest point in time when the application may write to the signal) in master node doesn't follow (see also Figure 2.2):
+• Master node - before the frame transmission is initiated.
+
+NCF tool:
+The order of frame in configurable_frames must be Unconditional frames,then Event trigger frames, then
+Sporadic frames in Node attributes. The error will happen if the order is changed.
+************************************************************************************
+Known limitation
+************************************************************************************
+1. Conformance test coverage 99.06% (The defects was confirmed as CANoeLIN and hardware limitations)
+2. Lin Legacy doesn’t support automatic handle UDS services (ISO 14229-1 [4] diagnostic services). 
+3. Lin driver bases on UART can not detect break field when it's in phase receiving or sending frame data. But Lin driver bases
+on SCI can do it.
+************************************************************************************
+Note from LIN Consortium
+************************************************************************************
+The LIN Steering Group has concluded its work with the finalization of the LIN Specification 2.2.A.
+Currently the latest LIN specification is being transcribed
+to the ISO (International Organization for Standardization)
+as part of the process to be accepted as ISO standard ISO 17987 Part 1-7.

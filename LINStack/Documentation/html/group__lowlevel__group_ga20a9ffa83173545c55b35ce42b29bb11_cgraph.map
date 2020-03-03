@@ -1,0 +1,9 @@
+<map id="lin_lld_init" name="lin_lld_init">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga7ee3d43dd53291b94937ae5f761317c2" title="SCI v5 init. " alt="" coords="141,5,243,33"/>
+<area shape="rect" id="node7" href="$group___x_g_a_t_e__group.html#ga00a138782ad214e51dbaac376119bdc8" title="This function performs the initialization of SCI channel in the XGATE module. " alt="" coords="133,55,251,83"/>
+<area shape="rect" id="node9" href="$group__s08qd4__group.html#ga38479002b3a46c3f85d8c6ab10c05771" title="This function performs the initialization of the GPIO hardware. " alt="" coords="137,106,247,134"/>
+<area shape="rect" id="node13" href="$group___u_a_r_t__group.html#ga56f181e73a2dc3e6c938821122f7532b" title="UART init. " alt="" coords="139,157,245,185"/>
+<area shape="rect" id="node5" href="$group___s_c_i__group.html#gac5a108ce9a877dd815caf1522bcff034" title="Enter IDLE state. " alt="" coords="300,5,428,33"/>
+<area shape="rect" id="node11" href="$group__s08qd4__group.html#gaf1d5c5b1e9422b8e5e2424b2a8bfd697" title="start timer 2 " alt="" coords="319,106,409,134"/>
+<area shape="rect" id="node15" href="$group___u_a_r_t__group.html#ga9c1da18f7719779b77aad4d73b95f0f5" title="Enter IDLE state. " alt="" coords="300,157,428,185"/>
+</map>

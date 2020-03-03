@@ -1,0 +1,14 @@
+<map id="lin_tick_callback_handler" name="lin_tick_callback_handler">
+<area shape="rect" id="node3" href="$group___l_i_n21__core__api__group.html#ga5bea96d0a47378c2b0943720941b5635" title="Switch to collision resolve table. " alt="" coords="249,5,385,33"/>
+<area shape="rect" id="node7" href="$group__lowlevel__group.html#gae92292efb26d659bf901e38f65b74b02" title="Clear flag for collision in event trigger frame. " alt="" coords="221,55,413,83"/>
+<area shape="rect" id="node9" href="$group__common__core__api__group.html#ga130cf78482002b9e986d3e7c168ffb8d" title="Check to see if the current schedule table is needed to change or not. " alt="" coords="247,106,388,134"/>
+<area shape="rect" id="node11" href="$group__common__core__api__group.html#ga29c7c54b7719d4371cc2eee2f2e3793f" title="Find the frame associated with a specified sporadic frame which is updated. " alt="" coords="252,157,383,201"/>
+<area shape="rect" id="node13" href="$group__lowlevel__group.html#ga70fd4e65ac1a757188a423c7c4c6952e" title="Master transmit header. " alt="" coords="259,223,376,251"/>
+<area shape="rect" id="node25" href="$group___l_i_n21__core__api__group.html#ga5ab05ed2ed61a095a64269543f211e40" title="Update date word status. " alt="" coords="239,274,396,318"/>
+<area shape="rect" id="node27" href="$group___j2602__core__api__group.html#ga51e40eb0551be208fadbd4681d2f2476" title="Update date word status. " alt="" coords="239,341,396,385"/>
+<area shape="rect" id="node5" href="$group__common__core__api__group.html#ga1c17226ae2c4f7dc188d8acf4381efe9" title="This function is return the index of a frame in frame list or 0xFF if not found. " alt="" coords="472,5,608,33"/>
+<area shape="rect" id="node15" href="$group___s_c_i__group.html#gaa9e6d3a7b3d7400e83167f2f6af1f0f4" title="This function requests to send header of LIN frame via SCI channel. " alt="" coords="469,173,611,201"/>
+<area shape="rect" id="node19" href="$group___x_g_a_t_e__group.html#ga99dc97ef28e5a2776ba7aa44c12d3921" title="function performs the following tasks " alt="" coords="461,223,619,251"/>
+<area shape="rect" id="node22" href="$group___u_a_r_t__group.html#ga97d04a1bf66fb6ef0c7a8a8a077ebfde" title="This function requests to send header of LIN frame via UART channel. " alt="" coords="467,274,613,302"/>
+<area shape="rect" id="node17" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="668,223,793,251"/>
+</map>

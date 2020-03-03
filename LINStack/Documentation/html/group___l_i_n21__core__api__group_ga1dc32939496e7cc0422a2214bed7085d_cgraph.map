@@ -1,0 +1,4 @@
+<map id="lin_make_res_evnt_frame" name="lin_make_res_evnt_frame">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#gaa9923fe3dd50f5b9d79015855d70c737" title="Update signal, status and flags after received response. " alt="" coords="223,5,383,33"/>
+<area shape="rect" id="node5" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="240,55,365,83"/>
+</map>

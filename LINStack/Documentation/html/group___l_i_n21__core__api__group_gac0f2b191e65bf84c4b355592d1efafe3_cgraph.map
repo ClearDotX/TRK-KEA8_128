@@ -1,0 +1,5 @@
+<map id="lin_update_rx_evnt_frame" name="lin_update_rx_evnt_frame">
+<area shape="rect" id="node3" href="$group__common__core__api__group.html#ga1c17226ae2c4f7dc188d8acf4381efe9" title="This function is return the index of a frame in frame list or 0xFF if not found. " alt="" coords="195,5,331,33"/>
+<area shape="rect" id="node5" href="$group__lowlevel__group.html#ga5b606f56e392435fdc268d19a6223951" title="Check parity and generate PID. " alt="" coords="200,55,325,83"/>
+<area shape="rect" id="node7" href="$group__common__core__api__group.html#gaa9923fe3dd50f5b9d79015855d70c737" title="Update signal, status and flags after received response. " alt="" coords="183,106,343,134"/>
+</map>

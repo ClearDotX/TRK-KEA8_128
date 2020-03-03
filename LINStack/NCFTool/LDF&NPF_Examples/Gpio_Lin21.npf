@@ -1,0 +1,23 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu {
+   mcu_name                      = MC9S08QD4;
+   bus_clock                     = 8000000;                  /* Frequency bus of system Hz*/
+   xgate_support                 = no;                       /* Support XGATE Co-Processor */
+}
+
+/*** LIN HARDWARE DEFINITION ***/
+/*** NETWORK DEFINITION ***/
+network {
+   idle_timeout                  = 5 s;
+   resynchronization_support     = no;
+   autobaud_support              = no;
+   LI0 {
+      node                       = Motor1;                   /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "LIN21.ldf";              /* Name of LDF file */
+      device                     = gpio;
+   }
+}
+

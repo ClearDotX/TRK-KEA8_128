@@ -1,0 +1,23 @@
+User Guide 
+1) Overview:
+This example demonstrates the LIN communication between S12ZVL128 Master and Slave using unconditional frames.
+2) Hardware requirements
+- 1 PE Micro Multi-link universal
+- 2 TRK-S12ZVL128 boards
+- 1 LIN cable
+- 1 Power Adapter 12V
+- 1 Personal Computer
+3) Tool chain requirements
+- CodeWarrior IDE v10.6
+-  MCU v10.6 S12Z Service Pack for HCS12Z S12ZVL
+4) Hardware settings
+- jumpers J6 for VLIN is connected and pin 1 to pin6 of J21 are connected for using LED.
+5) Prepare the example
+	5.1) Use LIN cable to connect J11 of S12ZVL128 Master to J11 of S12ZVL128 Slave.
+	5.2) Plug power connector of Adapters 12V to J3 of S12ZVL128 Master.
+	5.3) Open CodeWarrior 10.6, import example projects, build projects and download the programs to boards.
+
+6)Run the example
+	6.1) After reset, LED2 of both boards are off.
+	6.2) LED2 of both boards are on for about 7s.
+	6.3) Afterwards, LED2 of both boards toggles forever.

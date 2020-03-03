@@ -1,0 +1,39 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu {
+   mcu_name                      = MC9S12ZVMBA64;
+   bus_clock                     = 25000000;                 /* Frequency bus of system Hz*/
+   xgate_support                 = no;                       /* Support XGATE Co-Processor */
+}
+
+/*** LIN HARDWARE DEFINITION ***/
+/* Sci config */
+sci {
+   s12_sci0{
+      sci_channel                = 0;
+   }
+}
+
+/*** NETWORK DEFINITION ***/
+network {
+   idle_timeout                  = 5 s;
+   diagnostic_class              = 1;
+   resynchronization_support     = no;
+   autobaud_support              = no;
+   max_message_length            = 6;
+   LI0 {
+      node                       = SeatECU;                  /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "LIN21.ldf";              /* Name of LDF file */
+      device                     = s12_sci0;
+      support_sid {
+         READ_BY_IDENTIFIER      = 0xb2;
+         ASSIGN_FRAME_ID_RANGE   = 0xb7;
+         ASSIGN_NAD              = 0xb0;
+         CONDITIONAL_CHANGE_NAD  = 0xb3;
+         SAVE_CONFIGURATION      = 0xb6;
+      }
+   }
+}
+

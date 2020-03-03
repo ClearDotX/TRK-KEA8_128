@@ -1,0 +1,32 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu {
+   mcu_name                      = MC9S08EL32;
+   bus_clock                     = 16000000;                 /* Frequency bus of system Hz*/
+   xgate_support                 = no;                       /* Support XGATE Co-Processor */
+}
+
+/*** LIN HARDWARE DEFINITION ***/
+/*** NETWORK DEFINITION ***/
+network {
+   idle_timeout                  = 5 s;
+   diagnostic_class              = 1;
+   resynchronization_support     = no;
+   autobaud_support              = no;
+   max_message_length            = 6;
+   LI0 {
+      node                       = Slave2;                   /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "Demo_Cluster1.ldf";      /* Name of LDF file */
+      device                     = slic;
+      support_sid {
+         READ_BY_IDENTIFIER      = 0xb2;
+         ASSIGN_FRAME_ID_RANGE   = 0xb7;
+         ASSIGN_NAD              = 0xb0;
+         CONDITIONAL_CHANGE_NAD  = 0xb3;
+         SAVE_CONFIGURATION      = 0xb6;
+      }
+   }
+}
+

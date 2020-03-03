@@ -1,0 +1,38 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu {
+   mcu_name                      = MC9S12XEP100;
+   bus_clock                     = 8000000;                  /* Frequency bus of system Hz*/
+   xgate_support                 = no;                       /* Support XGATE Co-Processor */
+}
+
+/*** LIN HARDWARE DEFINITION ***/
+/* Sci config */
+sci {
+   s12_sci1{
+      sci_channel                = 1;
+   }
+}
+
+/*** NETWORK DEFINITION ***/
+network {
+   idle_timeout                  = 5 s;
+   diagnostic_class              = 2;
+   resynchronization_support     = no;
+   autobaud_support              = no;
+   max_message_length            = 21;
+   LI1 {
+      node                       = RearLeftDoor;             /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "LINDiagnostic.ldf";      /* Name of LDF file */
+      device                     = s12_sci1;
+      support_sid {
+         READ_BY_IDENTIFIER      = 178;
+         WRITE_DATA_BY_IDENTIFIER = 46;
+         ASSIGN_FRAME_ID_RANGE   = 183;
+         READ_DATA_BY_IDENTIFIER = 34;
+      }
+   }
+}
+

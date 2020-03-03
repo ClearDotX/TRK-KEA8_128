@@ -1,0 +1,36 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu  {         /* Must check the correct MCU name */
+	mcu_name = MM912J637;	
+	bus_clock = 8192000; /* Frequency bus of system Hz*/
+	xgate_support = no;	 /* Support XGATE Co-Processor */
+}
+/*** LIN HARDWARE DEFINITION ***/
+/* SCI config */
+sci{
+S12_sci1{
+		sci_channel = 0; /* Check validation of sci_channel */
+	}
+} 
+
+/*** NETWORK DEFINITION ***/
+network {
+	idle_timeout = 5s;
+	diagnostic_class = 1;       /* Class selection to use diagnostic services */
+	max_message_length      = 6;
+	LI0{
+		node = Motor1;		        /* Name of node described in LDF (must check consistence with LDF) */
+		file = "LIN21.ldf";			/* Path to LDF file */
+		device = S12_sci1;
+		support_sid    {
+         READ_BY_IDENTIFIER      = 178;
+         ASSIGN_FRAME_ID_RANGE   = 183;
+         ASSIGN_NAD              = 176;
+         CONDITIONAL_CHANGE_NAD  = 179;
+         SAVE_CONFIGURATION      = 182;
+         }
+	}
+}
+

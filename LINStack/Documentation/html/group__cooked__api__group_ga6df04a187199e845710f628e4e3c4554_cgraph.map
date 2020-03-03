@@ -1,0 +1,4 @@
+<map id="ld_receive_message" name="ld_receive_message">
+<area shape="rect" id="node3" href="$group__raw__api__group.html#gaac9619c1ede0a596bf358fbe758a835a" title="The call copies the oldest received diagnostic frame data to the memory specified by data..." alt="" coords="193,5,276,33"/>
+<area shape="rect" id="node5" href="$group__transport__group.html#gada32f583f5bfebbe47c4f61dc7e767c3" title="The call gets the raw data from the queue specified by queue to the raw data specified by data specif..." alt="" coords="325,5,405,33"/>
+</map>

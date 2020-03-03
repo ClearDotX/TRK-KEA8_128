@@ -1,0 +1,10 @@
+<map id="Board Support Package" name="Board Support Package">
+<area shape="rect" id="node1" href="$group___s_c_i__group.html" title="SCI interface" alt="" coords="368,5,464,33"/>
+<area shape="rect" id="node2" href="$group___s_l_i_c__group.html" title="SLIC interface" alt="" coords="365,55,467,83"/>
+<area shape="rect" id="node3" href="$group___g_p_i_o__group.html" title="GPIO interface" alt="" coords="363,106,469,134"/>
+<area shape="rect" id="node4" href="$group__autobaud__group.html" title="Autobaud Feature" alt="" coords="355,157,477,185"/>
+<area shape="rect" id="node5" href="$group___x_g_a_t_e__group.html" title="XGATE interface" alt="" coords="359,207,473,235"/>
+<area shape="rect" id="node6" href="$group___l_i_n___stack.html" title="LIN stack" alt="" coords="7,157,81,185"/>
+<area shape="rect" id="node7" href="$group___u_a_r_t__group.html" title="UART interface" alt="" coords="363,258,469,286"/>
+<area shape="rect" id="node9" href="$group__resync__group.html" title="Resynchronize module" alt="" coords="340,309,492,337"/>
+</map>

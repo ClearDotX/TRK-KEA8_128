@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NXP Automotive Software</title>
+  <!--link rel ="StyleSheet" href="web_styles.css" type="text/css"-->
+
+<style type="text/css">
+#logo{
+width:310px;
+height:164px;
+vertical-align:top;
+background: url(data:image/png;base64,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) no-repeat;
+}
+
+/*B14143: Style used for the Product Title*/
+#title{
+margin-left: 0.8em;
+margin-bottom: 0.2em;
+margin-top: 0.1em;
+font: bold 14px Arial;
+vertical-align:top;
+}
+
+
+/*B14143: Style used to draw a line on the page*/
+#tabsline{
+clear: both;
+padding: 0;
+width: 100%;
+height: 1px;
+border-top: 2px solid #778; /*Remove this to remove border between bar and tabs*/
+margin-bottom: none;
+
+}
+
+
+/*B14143: Style used for the document titles on the page.*/
+#doctitle{
+font: 14px Arial;
+margin-left: 0.8em;
+margin-top: 0.6em;
+}
+
+/*B14143: Style used for the document description on the page.*/
+#docdescription{
+font: 12px Arial;
+margin-left: 0.8em;
+margin-bottom: 0.4em;
+}
+
+.tabcontent{
+display:none;
+}
+
+
+</style>
+
+
+</head>
+<body>
+	<table border="0" cellpadding="0" cellspacing="0" summary="" width="1000" align="center">
+		   <tr>
+			 <td>
+					 <div id="logo"></div>
+					 <div id="tabsline"></div>
+			 </td>
+			 
+		
+			 
+		   </tr>
+	</table>		
+
+	<table border="0" cellpadding="0" cellspacing="0" summary="" width="940" align="center">
+		<tr><td>
+
+		<div id="main" >
+			<div id="title">
+				<h2>Thank you for installing NXP Automotive Software</h2>
+			</div>
+		
+
+			<div id="docdescription">
+			For information regarding supported MCUs, closed issues, etc please see the Release Notes.
+			</div>
+		
+			<div id="doctitle">
+				<!-- Modify path to Release Notes -->		 		
+                <a href="LIN_stack_S12_4_6_3_ReleaseNotes.txt                                                         
+" target="_blank">
+				<b>Click here to view the Release Notes</b>
+				</a>
+			</div>
+			<br><br>
+		</div>
+		
+		</td></tr>
+		<tr><td>
+			<div id="docdescription">
+			For technical support please visit.
+			</div>
+		
+			<div id="doctitle">
+		 		<a href="http://www.nxp.com/support" target="_blank">
+				<b>www.nxp.com/support</b>
+				</a>
+			</div>
+			<br><br>
+		</td></tr>
+		<tr><td>
+		
+		<div id="footer">
+			<table border="0" cellpadding="0" cellspacing="0" width="940">
+ 			<tr><td valign="bottom">
+				<span style="font-family:verdana, arial, helvetica, sans-serif; font-size: 8pt">
+				Copyright &copy; 2019 NXP. All rights reserved. 
+			</td></tr>
+			</table>
+		</div>
+        
+		</td></tr>
+    </table>
+</body>
+</html>

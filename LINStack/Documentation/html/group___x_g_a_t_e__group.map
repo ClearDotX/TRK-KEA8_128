@@ -1,0 +1,5 @@
+<map id="XGATE interface" name="XGATE interface">
+<area shape="rect" id="node1" href="$group___s_c_i__group.html" title="SCI interface" alt="" coords="444,154,540,182"/>
+<area shape="rect" id="node3" href="$group___u_a_r_t__group.html" title="UART interface" alt="" coords="439,217,545,245"/>
+<area shape="rect" id="node4" href="$group__bsp__group.html" title="BSP (Board Support Package) is the lowest layer of the LIN Stack. " alt="" coords="5,186,165,214"/>
+</map>

@@ -1,0 +1,6 @@
+<map id="lin_lld_set_low_power_mode" name="lin_lld_set_low_power_mode">
+<area shape="rect" id="node3" href="$group___s_c_i__group.html#ga92176fe6b74e56014c33e991a81e2760" title="Request to enter low power mode in SCI Driver. " alt="" coords="248,5,376,49"/>
+<area shape="rect" id="node5" href="$group___x_g_a_t_e__group.html#gae028c761e36a3b088b15ddef9d40bf19" title="Request to enter low power mode in SCI Driver. " alt="" coords="240,71,384,115"/>
+<area shape="rect" id="node7" href="$group__s08el32__group.html#gad641d5f15b3b164d297aac3487f0b57e" title="This function sets SLIC module to low power mode. " alt="" coords="247,138,377,182"/>
+<area shape="rect" id="node9" href="$group___u_a_r_t__group.html#gadabae51c9b3c1ad08c60f2fdd74a386e" title="Request to enter low power mode in UART Driver. " alt="" coords="245,205,379,249"/>
+</map>

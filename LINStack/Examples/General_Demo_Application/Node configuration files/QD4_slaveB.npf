@@ -1,0 +1,19 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu  {         /* Must check the correct MCU name */
+	mcu_name = MC9S08QD4;	
+	bus_clock = 8000000;		/* Frequency bus of system Hz*/
+	xgate_support = no;		/* Support XGATE Co-Processor */
+}
+
+/*** NETWORK DEFINITION ***/
+network {
+	idle_timeout                  = 5 s;
+	LI0{
+		node = SlaveB;		        /* Name of node described in LDF (must check consistence with LDF) */
+		file = "Demo_Cluster2.ldf"; 	/* Path to LDF file */
+		device = gpio;          	/* Identifier to LIN Hardware, related to LIN HARDWARE DEFINITION */
+    }
+}

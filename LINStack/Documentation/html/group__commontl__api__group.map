@@ -1,0 +1,6 @@
+<map id="Common API" name="Common API">
+<area shape="rect" id="node1" href="$group__cooked__api__group.html" title="Cooked processing of diagnostic messages manages one complete message at a time. " alt="" coords="333,5,424,33"/>
+<area shape="rect" id="node2" href="$group__initialization__group.html" title="Initialize transport layer (queues, status, ...). " alt="" coords="335,55,423,83"/>
+<area shape="rect" id="node3" href="$group__raw__api__group.html" title="The raw API is operating on PDU level and it is typically used to gateway PDUs between CAN and LIN..." alt="" coords="343,106,415,134"/>
+<area shape="rect" id="node4" href="$group__transport__group.html" title="Transport layer stands between the application layer and the core API layer. " alt="" coords="7,55,137,83"/>
+</map>

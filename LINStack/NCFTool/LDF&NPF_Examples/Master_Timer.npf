@@ -1,0 +1,72 @@
+/*** GENERAL DEFINITION ***/
+LIN_node_config_file;
+
+/*** MCU DEFINITION ***/
+mcu {
+   mcu_name                      = MC9S12XEP100;
+   bus_clock                     = 8000000;                  /* Frequency bus of system Hz*/
+   xgate_support                 = no;                       /* Support XGATE Co-Processor */
+}
+
+/*** LIN HARDWARE DEFINITION ***/
+/* Sci config */
+sci {
+   s12_sci0{
+      sci_channel                = 1;
+      timer_channel              = 0;
+   }
+   s12_sci1{
+      sci_channel                = 3;
+      timer_channel              = 1;
+   }
+   s12_sci2{
+      sci_channel                = 5;
+      timer_channel              = 2;
+   }
+}
+
+/*** NETWORK DEFINITION ***/
+network {
+   idle_timeout                  = 5 s;
+   diagnostic_class              = 1;
+   resynchronization_support     = no;
+   autobaud_support              = no;
+   max_message_length            = 6;
+   LI0 {
+      node                       = Gateway;                  /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "Demo_Master_Gateway.ldf"; /* Name of LDF file */
+      device                     = s12_sci0;
+      support_sid {
+         READ_BY_IDENTIFIER      = 0xb2;
+         ASSIGN_FRAME_ID_RANGE   = 0xb7;
+         ASSIGN_NAD              = 0xb0;
+         CONDITIONAL_CHANGE_NAD  = 0xb3;
+         SAVE_CONFIGURATION      = 0xb6;
+      }
+   }
+   LI1 {
+      node                       = Gateway1;                 /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "Demo_Cluster1.ldf";      /* Name of LDF file */
+      device                     = s12_sci1;
+      support_sid {
+         READ_BY_IDENTIFIER      = 0xb2;
+         ASSIGN_FRAME_ID_RANGE   = 0xb7;
+         ASSIGN_NAD              = 0xb0;
+         CONDITIONAL_CHANGE_NAD  = 0xb3;
+         SAVE_CONFIGURATION      = 0xb6;
+      }
+   }
+   LI2 {
+      node                       = Gateway2;                 /* Name of node described in LDF (must check consistence with LDF) */
+      file                       = "Demo_Cluster2.ldf";      /* Name of LDF file */
+      device                     = s12_sci2;
+      support_sid {
+         READ_BY_IDENTIFIER      = 0xb2;
+         ASSIGN_FRAME_ID_RANGE   = 0xb7;
+         SAVE_CONFIGURATION      = 0xb6;
+         CONDITIONAL_CHANGE_NAD  = 0xb3;
+         ASSIGN_NAD              = 0xb0;
+      }
+   }
+}
+

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="Assembly Source File">
+
+</language>
+<language name="C Source File">
+<includepath>${ProjDirPath}/Project_Headers</includepath>
+<includepath>${ProjDirPath}/Project_Settings/Startup_Code</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_C/include</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_Runtime/include</includepath>
+<includepath>${ProjDirPath}/Sources</includepath>
+<includepath>${ProjDirPath}/Sources/common</includepath>
+<includepath>${ProjDirPath}/Sources/cpu</includepath>
+<includepath>${ProjDirPath}/Sources/cpu/headers</includepath>
+<includepath>${ProjDirPath}/Sources/platforms</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/acmp</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/adc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/bitband</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/bme</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/can</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/crc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/ftm</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/gpio</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/ics</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/iic</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/kbi</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/nvm</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/pit</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/PMC</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/pwt</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/rtc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/sim</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/spi</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/uart</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/wdog</includepath>
+
+</language>
+<language name="Assembly Source File">
+<includepath>${ProjDirPath}/Project_Headers</includepath>
+<includepath>${ProjDirPath}/Project_Settings/Startup_Code</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_C/include</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_Runtime/include</includepath>
+<includepath>${ProjDirPath}/Sources</includepath>
+<includepath>${ProjDirPath}/Sources/common</includepath>
+<includepath>${ProjDirPath}/Sources/cpu</includepath>
+<includepath>${ProjDirPath}/Sources/cpu/headers</includepath>
+<includepath>${ProjDirPath}/Sources/platforms</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/acmp</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/adc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/bitband</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/bme</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/can</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/crc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/ftm</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/gpio</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/ics</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/iic</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/kbi</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/nvm</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/pit</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/PMC</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/pwt</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/rtc</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/sim</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/spi</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/uart</includepath>
+<includepath>${ProjDirPath}/Sources/drivers/wdog</includepath>
+
+</language>
+<language name="Object File">
+
+</language>
+<language name="topreprocess">
+<includepath>${ProjDirPath}/Project_Headers</includepath>
+<includepath>${ProjDirPath}/Project_Settings/Startup_Code</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_C/include</includepath>
+<includepath>${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_Runtime/include</includepath>
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="Assembly Source File">
+
+</language>
+<language name="C Source File">
+<macro>
+<name>CPU_KEA128</name><value/>
+</macro>
+<macro>
+<name>TRK_KEA128</name><value/>
+</macro>
+
+</language>
+<language name="Assembly Source File">
+<macro>
+<name>CPU_KEA128</name><value/>
+</macro>
+<macro>
+<name>TRK_KEA128</name><value/>
+</macro>
+
+</language>
+<language name="Object File">
+
+</language>
+<language name="topreprocess">
+
+</language>
+</section>
+</cdtprojectproperties>

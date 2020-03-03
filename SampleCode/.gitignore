@@ -1,0 +1,67 @@
+*.[oa]
+*~
+*.hex
+*.bin
+*.elf
+*.map
+*.swp
+*.dep
+*.sfr
+*.lib
+*.tags
+*.pbi
+*.pbi.cout
+*.tmp
+
+*.pbd
+*.browse
+*.cout
+*.dbgdt
+*.dni
+*.wsdt
+*.cspy.bat
+*.o
+*.i
+*.lst
+*.out
+*.jlink
+*.sim
+
+*.bak
+*.crf
+*.d
+*.wspos
+backup/
+*.zip
+temp/
+project_doc/
+
+# quilt's files
+patches
+series
+*.patch
+
+# cscope files
+cscope.*
+ncscope.*
+
+*.orig
+*~
+\#*#
+workspace
+.BUILD*
+~*
+build
+
+# Windows project stuff
+*.suo
+*.sdf
+
+# Xcode user state
+*.xcbkptlist
+*.xcuserstate
+
+# Python bytecode
+*.pyc
+
+tags
